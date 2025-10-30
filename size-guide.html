@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Size Guide - Lovable Supply">
+    <title>Size Guide - Lovable Supply</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .size-guide-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+        .size-guide-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        .size-guide-page .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        .size-section {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .size-section h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        .size-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .size-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            display: block;
+        }
+        .size-table table {
+            width: 100%;
+            min-width: 600px;
+        }
+        .size-table th,
+        .size-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .size-table th {
+            background: var(--background);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .size-table td {
+            color: var(--text-secondary);
+        }
+        .measurement-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .measurement-item {
+            padding: 1.5rem;
+            background: var(--background);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .measurement-item h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .measurement-item p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        .tip-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .tip-box strong {
+            color: var(--text-primary);
+        }
+        .tip-box p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+                        <path d="M16 8L8 12V20L16 24L24 20V12L16 8Z" fill="white"/>
+                    </svg>
+                    <span class="brand-name">Lovable Supply</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="size-guide-page">
+        <h1>Size Guide</h1>
+        <p class="subtitle">Find your perfect fit with our comprehensive sizing charts</p>
+
+        <!-- T-Shirts -->
+        <div class="size-section">
+            <h2>T-Shirts & Tops</h2>
+            <p>All measurements are in inches. If you're between sizes, we recommend sizing up for a more comfortable fit.</p>
+
+            <div class="size-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Chest (inches)</th>
+                            <th>Length (inches)</th>
+                            <th>Sleeve (inches)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>XS</strong></td>
+                            <td>32-34</td>
+                            <td>27</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td><strong>S</strong></td>
+                            <td>34-36</td>
+                            <td>28</td>
+                            <td>8.5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M</strong></td>
+                            <td>38-40</td>
+                            <td>29</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L</strong></td>
+                            <td>42-44</td>
+                            <td>30</td>
+                            <td>9.5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XL</strong></td>
+                            <td>46-48</td>
+                            <td>31</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2XL</strong></td>
+                            <td>50-52</td>
+                            <td>32</td>
+                            <td>10.5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3XL</strong></td>
+                            <td>54-56</td>
+                            <td>33</td>
+                            <td>11</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Hoodies -->
+        <div class="size-section">
+            <h2>Hoodies & Sweatshirts</h2>
+            <p>Our hoodies are designed with a relaxed fit for maximum comfort. Measurements are taken with the garment laid flat.</p>
+
+            <div class="size-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Chest (inches)</th>
+                            <th>Length (inches)</th>
+                            <th>Sleeve (inches)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>XS</strong></td>
+                            <td>34-36</td>
+                            <td>26</td>
+                            <td>33</td>
+                        </tr>
+                        <tr>
+                            <td><strong>S</strong></td>
+                            <td>36-38</td>
+                            <td>27</td>
+                            <td>34</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M</strong></td>
+                            <td>40-42</td>
+                            <td>28</td>
+                            <td>35</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L</strong></td>
+                            <td>44-46</td>
+                            <td>29</td>
+                            <td>36</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XL</strong></td>
+                            <td>48-50</td>
+                            <td>30</td>
+                            <td>37</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2XL</strong></td>
+                            <td>52-54</td>
+                            <td>31</td>
+                            <td>38</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3XL</strong></td>
+                            <td>56-58</td>
+                            <td>32</td>
+                            <td>39</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- How to Measure -->
+        <div class="size-section">
+            <h2>How to Measure</h2>
+            <p>For the most accurate fit, measure yourself or a similar garment you already own:</p>
+
+            <div class="measurement-guide">
+                <div class="measurement-item">
+                    <h3>📏 Chest</h3>
+                    <p>Measure around the fullest part of your chest, keeping the tape measure horizontal and close under the arms.</p>
+                </div>
+                <div class="measurement-item">
+                    <h3>📐 Length</h3>
+                    <p>Measure from the highest point of the shoulder down to the hem of the garment.</p>
+                </div>
+                <div class="measurement-item">
+                    <h3>✋ Sleeve</h3>
+                    <p>For tees, measure from the shoulder seam to the sleeve hem. For hoodies, measure from the center back neck to the cuff.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <p><strong>💡 Sizing Tip:</strong> If you're between sizes or prefer a looser fit, we recommend going up one size. Our garments are pre-shrunk, but we still recommend following care instructions to maintain the best fit.</p>
+            </div>
+        </div>
+
+        <!-- Accessories -->
+        <div class="size-section">
+            <h2>Accessories</h2>
+            <p><strong>Caps:</strong> One size fits most (adjustable strap)</p>
+            <p><strong>Tote Bags:</strong> 15" x 16" with 5" gusset</p>
+            <p><strong>Stickers:</strong> Various sizes noted on product pages</p>
+            <p><strong>Mugs:</strong> 11 oz capacity, 3.75" diameter, 3.75" height</p>
+        </div>
+
+        <!-- Still Need Help -->
+        <div class="tip-box">
+            <p><strong>Still need help?</strong> Contact our customer service team at <a href="mailto:merch@lovable.dev" style="color: var(--primary-color);">merch@lovable.dev</a> and we'll help you find your perfect fit!</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lovable Supply</h3>
+                    <p>Official merchandise for AI builders</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="cart.html">My Cart</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
+                        <li><a href="shipping.html">Returns & Exchanges</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="store-policies.html">Store Policies</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Powered by</h4>
+                    <p><a href="https://lovable.dev" target="_blank">Lovable</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lovable Supply. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="closeCart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Store Policies - Lovable Supply">
+    <title>Store Policies - Lovable Supply</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .legal-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+        .legal-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .legal-page .last-updated {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 0.95rem;
+        }
+        .legal-page h2 {
+            font-size: 1.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .legal-page h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        .legal-page p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .legal-page ul {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+        .legal-page a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .legal-page a:hover {
+            text-decoration: underline;
+        }
+        .policy-highlight {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .policy-highlight p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+                        <path d="M16 8L8 12V20L16 24L24 20V12L16 8Z" fill="white"/>
+                    </svg>
+                    <span class="brand-name">Lovable Supply</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="legal-page">
+        <h1>Store Policies</h1>
+        <p class="last-updated">Last Updated: October 30, 2024</p>
+
+        <p>Welcome to Lovable Supply! These store policies outline important information about shopping with us, including our commitments to quality, customer service, and ethical business practices.</p>
+
+        <h2>1. Our Customer Commitment</h2>
+        <p>At Lovable Supply, we're committed to providing you with:</p>
+        <ul>
+            <li>High-quality merchandise that meets our strict standards</li>
+            <li>Fair and transparent pricing with no hidden fees</li>
+            <li>Fast, reliable shipping and order processing</li>
+            <li>Responsive customer service and support</li>
+            <li>A hassle-free return process for eligible items</li>
+            <li>Protection of your personal information and privacy</li>
+        </ul>
+
+        <h2>2. Product Quality Standards</h2>
+        <h3>Materials & Manufacturing</h3>
+        <p>All our products meet the following standards:</p>
+        <ul>
+            <li>Made from premium, sustainable materials whenever possible</li>
+            <li>Manufactured in facilities that meet ethical labor standards</li>
+            <li>Undergo quality control inspections before shipping</li>
+            <li>Designed for durability and long-term use</li>
+            <li>Environmentally conscious production practices</li>
+        </ul>
+
+        <div class="policy-highlight">
+            <p><strong>Quality Guarantee:</strong> If you're not satisfied with the quality of your purchase, contact us within 30 days and we'll make it right.</p>
+        </div>
+
+        <h2>3. Pricing & Payment</h2>
+        <h3>Pricing Policy</h3>
+        <p>All prices are listed in USD and include:</p>
+        <ul>
+            <li>Base product cost</li>
+            <li>Any applicable product customization</li>
+        </ul>
+        <p>Prices do NOT include:</p>
+        <ul>
+            <li>Shipping costs (calculated at checkout)</li>
+            <li>Customs duties or import taxes for international orders</li>
+            <li>State or local sales tax where applicable</li>
+        </ul>
+
+        <h3>Payment Methods</h3>
+        <p>We accept the following secure payment methods:</p>
+        <ul>
+            <li>All major credit cards (Visa, MasterCard, American Express, Discover)</li>
+            <li>PayPal</li>
+            <li>Apple Pay</li>
+            <li>Google Pay</li>
+        </ul>
+
+        <p>All transactions are processed securely and we never store your complete payment information.</p>
+
+        <h2>4. Order Processing</h2>
+        <h3>Order Confirmation</h3>
+        <p>You will receive an email confirmation immediately after placing your order. This confirms we've received your order but does not mean it has shipped yet.</p>
+
+        <h3>Processing Time</h3>
+        <p>Orders are typically processed within 1-3 business days. During peak seasons or promotions, processing may take slightly longer.</p>
+
+        <h3>Order Changes & Cancellations</h3>
+        <p>Orders can be modified or cancelled within 2 hours of purchase. After this time, orders enter our fulfillment process and cannot be changed. Contact us immediately at <a href="mailto:merch@lovable.dev">merch@lovable.dev</a> if you need to make changes.</p>
+
+        <h2>5. Shipping Policy</h2>
+        <p>For detailed shipping information, please see our <a href="shipping.html">Shipping & Returns</a> page. Key points:</p>
+        <ul>
+            <li>Free standard shipping on orders over $75 (US only)</li>
+            <li>Multiple shipping speed options available</li>
+            <li>International shipping to select countries</li>
+            <li>Tracking provided for all orders</li>
+            <li>We're not responsible for carrier delays beyond our control</li>
+        </ul>
+
+        <h2>6. Returns & Exchanges</h2>
+        <p>We want you to love your purchase! Our return policy includes:</p>
+        <ul>
+            <li>30-day return window for most items</li>
+            <li>Items must be unworn, unwashed, and in original condition</li>
+            <li>Full refund to original payment method</li>
+            <li>Prepaid return labels for defective items</li>
+            <li>Customer pays return shipping for change-of-mind returns</li>
+        </ul>
+        <p>See our full <a href="shipping.html">Shipping & Returns</a> policy for complete details.</p>
+
+        <h2>7. Customer Service</h2>
+        <h3>How to Reach Us</h3>
+        <p>Email: <a href="mailto:merch@lovable.dev">merch@lovable.dev</a><br>
+        Twitter: <a href="https://twitter.com/lovable_dev" target="_blank">@lovable_dev</a></p>
+
+        <h3>Response Times</h3>
+        <p>We typically respond to inquiries within 4-6 hours during business hours (Monday-Friday, 9 AM - 6 PM EST). Weekend inquiries are answered on the next business day.</p>
+
+        <h2>8. Privacy & Security</h2>
+        <p>We take your privacy seriously:</p>
+        <ul>
+            <li>We never sell your personal information</li>
+            <li>All transactions are encrypted and secure</li>
+            <li>We only collect information necessary to process orders</li>
+            <li>You can request deletion of your data at any time</li>
+        </ul>
+        <p>Read our complete <a href="privacy.html">Privacy Policy</a> for full details.</p>
+
+        <h2>9. Intellectual Property</h2>
+        <p>All designs, logos, and content on Lovable Supply are protected by copyright and trademark laws. Unauthorized use or reproduction is prohibited.</p>
+
+        <h2>10. Sustainability Commitment</h2>
+        <p>We're committed to reducing our environmental impact:</p>
+        <ul>
+            <li>Sustainable and ethically-sourced materials</li>
+            <li>Minimal, recyclable packaging</li>
+            <li>Carbon-neutral shipping options available</li>
+            <li>Support for environmental initiatives</li>
+            <li>Continuous improvement of our sustainability practices</li>
+        </ul>
+
+        <h2>11. Promotions & Discounts</h2>
+        <p>Promotional codes and discounts:</p>
+        <ul>
+            <li>Cannot be combined with other offers unless stated</li>
+            <li>Must be applied at checkout (cannot be added after purchase)</li>
+            <li>May have expiration dates and restrictions</li>
+            <li>We reserve the right to modify or cancel promotions at any time</li>
+        </ul>
+
+        <h2>12. Product Availability</h2>
+        <p>While we strive to keep all products in stock:</p>
+        <ul>
+            <li>Some items may be limited edition or seasonal</li>
+            <li>Stock levels are updated regularly but not guaranteed</li>
+            <li>We reserve the right to limit quantities per customer</li>
+            <li>Out-of-stock items may be cancelled and fully refunded</li>
+        </ul>
+
+        <h2>13. Policy Updates</h2>
+        <p>We may update these policies from time to time. Changes will be posted on this page with an updated "Last Updated" date. Continued use of our store constitutes acceptance of updated policies.</p>
+
+        <div class="policy-highlight">
+            <p><strong>Questions about our policies?</strong> Contact us at <a href="mailto:merch@lovable.dev">merch@lovable.dev</a> and we'll be happy to help!</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lovable Supply</h3>
+                    <p>Official merchandise for AI builders</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="cart.html">My Cart</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
+                        <li><a href="shipping.html">Returns & Exchanges</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="store-policies.html">Store Policies</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Powered by</h4>
+                    <p><a href="https://lovable.dev" target="_blank">Lovable</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lovable Supply. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="closeCart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

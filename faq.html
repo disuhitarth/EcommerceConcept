@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Frequently Asked Questions - Lovable Supply">
+    <title>FAQ - Lovable Supply</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .faq-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+        .faq-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        .faq-page .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+        .faq-category h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .faq-item:hover {
+            border-color: var(--primary-color);
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .faq-answer-content p {
+            margin-bottom: 0.75rem;
+        }
+        .faq-answer-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .faq-answer-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .faq-answer-content a:hover {
+            text-decoration: underline;
+        }
+        .contact-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .contact-box h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .contact-box p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .contact-box a {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .contact-box a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+                        <path d="M16 8L8 12V20L16 24L24 20V12L16 8Z" fill="white"/>
+                    </svg>
+                    <span class="brand-name">Lovable Supply</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html#products">Products</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="faq-page">
+        <h1>Frequently Asked Questions</h1>
+        <p class="subtitle">Find answers to common questions about Lovable Supply</p>
+
+        <!-- Orders & Payment -->
+        <div class="faq-category">
+            <h2>Orders & Payment</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I place an order?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Placing an order is easy! Simply browse our products, click "Add to Cart" on items you want, then click the cart icon to review your order and proceed to checkout. Follow the prompts to enter your shipping and payment information.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We accept all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, Apple Pay, and Google Pay.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I modify or cancel my order?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Orders can be cancelled or modified within 2 hours of purchase. After that, orders enter processing and cannot be changed. Please contact us immediately at <a href="mailto:merch@lovable.dev">merch@lovable.dev</a> if you need to make changes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you offer gift cards?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Yes! Digital gift cards are available in various denominations. They're perfect for letting fellow developers choose their favorite merch. Gift cards never expire and can be used for any purchase on our site.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping -->
+        <div class="faq-category">
+            <h2>Shipping & Delivery</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How long does shipping take?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Shipping times depend on your selected method:</p>
+                        <ul>
+                            <li>Standard Shipping: 5-7 business days</li>
+                            <li>Express Shipping: 2-3 business days</li>
+                            <li>Overnight Shipping: 1 business day</li>
+                        </ul>
+                        <p>Orders are processed within 1-3 business days before shipping. See our <a href="shipping.html">Shipping & Returns</a> page for more details.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you ship internationally?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Yes! We ship to the US, Canada, UK, EU countries, Australia, and New Zealand. International shipping typically takes 7-21 business days. Customs duties and taxes may apply and are the responsibility of the customer.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How can I track my order?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Once your order ships, you'll receive a confirmation email with a tracking number. You can use this number to track your package on the carrier's website. If you haven't received tracking information within 3 business days, please contact us.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is free shipping available?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Yes! We offer free standard shipping on all orders over $75 within the United States. International orders and expedited shipping have additional fees.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="faq-category">
+            <h2>Products</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What sizes are available?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our apparel is available in sizes XS through 3XL. Each product page includes a detailed size chart to help you find the perfect fit. If you're between sizes, we recommend sizing up for a more comfortable fit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are the products made of?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We use high-quality, sustainable materials:</p>
+                        <ul>
+                            <li>T-shirts: 100% organic cotton or cotton/poly blend</li>
+                            <li>Hoodies: 80% cotton, 20% recycled polyester</li>
+                            <li>Stickers: Durable vinyl with weather-resistant coating</li>
+                        </ul>
+                        <p>All materials are ethically sourced and produced.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I care for my merchandise?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>To keep your merch looking great:</p>
+                        <ul>
+                            <li>Machine wash cold with like colors</li>
+                            <li>Tumble dry low or hang dry</li>
+                            <li>Do not bleach or dry clean</li>
+                            <li>Turn inside out before washing</li>
+                            <li>Iron on low heat if needed (avoid designs)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Will there be restocks of sold-out items?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We do our best to restock popular items, but some designs are limited edition. Sign up for our newsletter to be notified about restocks and new product launches!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Returns -->
+        <div class="faq-category">
+            <h2>Returns & Exchanges</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is your return policy?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We accept returns within 30 days of delivery for unworn, unwashed items in original condition with tags attached. Contact us at <a href="mailto:merch@lovable.dev">merch@lovable.dev</a> to initiate a return. See our <a href="shipping.html">Shipping & Returns</a> page for complete details.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you offer exchanges?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We don't offer direct exchanges at this time. If you need a different size or item, please return the original item for a refund and place a new order for the item you'd like.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What if my item is defective or damaged?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We're sorry if you received a defective or damaged item! Contact us immediately with photos of the issue, and we'll send you a replacement or provide a full refund, including original shipping costs. We'll provide a prepaid return label.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account & Support -->
+        <div class="faq-category">
+            <h2>Account & Support</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do I need an account to place an order?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>No, you can checkout as a guest. However, creating an account allows you to track orders, save your shipping information, and receive exclusive updates about new products and promotions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I reset my password?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Click "Forgot Password" on the login page, enter your email address, and we'll send you instructions to reset your password. If you don't receive the email, check your spam folder or contact support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How can I contact customer support?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>You can reach us at:</p>
+                        <ul>
+                            <li>Email: <a href="mailto:merch@lovable.dev">merch@lovable.dev</a></li>
+                            <li>Twitter: <a href="https://twitter.com/lovable_dev" target="_blank">@lovable_dev</a></li>
+                        </ul>
+                        <p>We typically respond within 24 hours during business days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Box -->
+        <div class="contact-box">
+            <h3>Still Have Questions?</h3>
+            <p>Our team is here to help! Get in touch with us and we'll respond as soon as possible.</p>
+            <a href="mailto:merch@lovable.dev">Contact Support</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lovable Supply</h3>
+                    <p>Official merchandise for AI builders</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="cart.html">My Cart</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
+                        <li><a href="shipping.html">Returns & Exchanges</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="store-policies.html">Store Policies</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Powered by</h4>
+                    <p><a href="https://lovable.dev" target="_blank">Lovable</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lovable Supply. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        loadTheme();
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                const isActive = faqItem.classList.contains('active');
+
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                // Toggle current item
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

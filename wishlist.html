@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My Wishlist - Lovable Supply">
+    <title>Wishlist - Lovable Supply</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .wishlist-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+        .wishlist-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .empty-wishlist {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .empty-wishlist-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .empty-wishlist h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .empty-wishlist p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .wishlist-product-card {
+            position: relative;
+        }
+        .remove-wishlist-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+            color: var(--text-secondary);
+        }
+        .remove-wishlist-btn:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+                        <path d="M16 8L8 12V20L16 24L24 20V12L16 8Z" fill="white"/>
+                    </svg>
+                    <span class="brand-name">Lovable Supply</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Wishlist Page Content -->
+    <main class="wishlist-page">
+        <h1>My Wishlist</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Save your favorite items for later</p>
+        <div id="wishlistContent">
+            <!-- Content will be dynamically loaded -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lovable Supply</h3>
+                    <p>Official merchandise for AI builders</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="cart.html">My Cart</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
+                        <li><a href="shipping.html">Returns & Exchanges</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="store-policies.html">Store Policies</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Powered by</h4>
+                    <p><a href="https://lovable.dev" target="_blank">Lovable</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lovable Supply. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="closeCart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // Wishlist functionality
+        const products = [
+            {id: 1, name: 'AI Builder Hoodie', category: 'hoodies', price: 59.99, description: 'Premium hoodie for AI-powered developers', emoji: '👨‍💻'},
+            {id: 2, name: 'Chat with AI Tee', category: 'tees', price: 29.99, description: 'Comfortable t-shirt celebrating AI builders', emoji: '💬'},
+            {id: 3, name: 'Code Generator Hoodie', category: 'hoodies', price: 64.99, description: 'Stay warm while building with AI', emoji: '⚡'},
+            {id: 4, name: 'Lovable Sticker Pack', category: 'stickers', price: 9.99, description: 'Set of 10 premium stickers', emoji: '✨'},
+            {id: 5, name: 'AI Developer Tee', category: 'tees', price: 27.99, description: 'Show your AI developer pride', emoji: '🤖'},
+            {id: 6, name: 'Build Fast Hoodie', category: 'hoodies', price: 62.99, description: 'For developers who ship quickly', emoji: '🚀'}
+        ];
+
+        function renderWishlist() {
+            const wishlist = JSON.parse(localStorage.getItem('lovableWishlist') || '[]');
+            const wishlistContent = document.getElementById('wishlistContent');
+
+            if (wishlist.length === 0) {
+                wishlistContent.innerHTML = `
+                    <div class="empty-wishlist">
+                        <div class="empty-wishlist-icon">❤️</div>
+                        <h2>Your wishlist is empty</h2>
+                        <p>Start adding your favorite items!</p>
+                        <a href="products.html" class="cta-button">Browse Products</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+
+            wishlistContent.innerHTML = `
+                <div class="wishlist-grid">
+                    ${wishlistProducts.map(product => `
+                        <div class="product-card wishlist-product-card">
+                            <button class="remove-wishlist-btn" onclick="removeFromWishlist(${product.id})">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                            <div class="product-image">${product.emoji}</div>
+                            <div class="product-info">
+                                <div class="product-category">${product.category}</div>
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-description">${product.description}</p>
+                                <div class="product-footer">
+                                    <span class="product-price">$${product.price.toFixed(2)}</span>
+                                    <button class="add-to-cart-btn" onclick="addToCartFromWishlist(${product.id})">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('lovableWishlist') || '[]');
+            wishlist = wishlist.filter(id => id !== productId);
+            localStorage.setItem('lovableWishlist', JSON.stringify(wishlist));
+            renderWishlist();
+            showNotification('Removed from wishlist');
+        }
+
+        function addToCartFromWishlist(productId) {
+            const product = products.find(p => p.id === productId);
+            let cart = JSON.parse(localStorage.getItem('lovableCart') || '[]');
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem('lovableCart', JSON.stringify(cart));
+            updateCart();
+            showNotification('Added to cart!');
+        }
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderWishlist();
+        });
+    </script>
+</body>
+</html>
