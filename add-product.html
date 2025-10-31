@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Lovable Supply</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth-styles.css">
+    <style>
+        .toggle-btn {
+            transition: all 0.2s ease;
+        }
+        .toggle-btn:hover {
+            transform: translateY(-1px);
+        }
+        .toggle-btn:active {
+            transform: translateY(0);
+        }
+        .toggle-btn.active {
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Toggle Switch Styles */
+        .toggle-slider::before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        input:checked + .toggle-slider::before {
+            transform: translateX(24px);
+        }
+
+        .toggle-slider:hover {
+            opacity: 0.9;
+        }
+
+        /* Enhancement card hover effect */
+        #imageEnhancementSection > div > div:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Enhancement button hover effects */
+        .enhancement-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .enhancement-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Image preview hover effect */
+        .image-preview-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Preview gallery navigation hover */
+        #prevImageBtn:hover, #nextImageBtn:hover {
+            background: rgba(255, 255, 255, 0.4) !important;
+            transform: scale(1.1);
+        }
+
+        #prevImageBtn:active, #nextImageBtn:active {
+            transform: scale(0.95);
+        }
+
+        /* Thumbnail hover effect */
+        #previewThumbnails img {
+            transition: all 0.2s;
+        }
+
+        /* Smooth scrollbar for thumbnails */
+        #previewThumbnails > div::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        #previewThumbnails > div::-webkit-scrollbar-track {
+            background: var(--background);
+            border-radius: 3px;
+        }
+
+        #previewThumbnails > div::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        #previewThumbnails > div::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+                        <path d="M16 8L8 12V20L16 24L24 20V12L16 8Z" fill="white"/>
+                    </svg>
+                    <a href="index.html" class="brand-name">Lovable Supply</a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Add Product Container -->
+    <div class="auth-container" style="min-height: 100vh; padding: 2rem 0;">
+        <div class="container" style="max-width: 1400px;">
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start;">
+
+                <!-- Left Side - Pinterest Alternative -->
+                <div style="position: sticky; top: 100px;">
+                    <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; height: 700px; display: flex; flex-direction: column;">
+                        <!-- Header -->
+                        <div style="padding: 1rem; background: var(--background); border-bottom: 1px solid var(--border-color);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <svg id="currentIcon" width="24" height="24" viewBox="0 0 24 24" fill="#E60023">
+                                    <path d="M12.5 4C8.36 4 5 7.36 5 11.5c0 2.89 1.64 5.41 4.05 6.67-.06-.54-.1-1.38.02-1.97l.74-3.14s-.19-.38-.19-.94c0-.88.51-1.54 1.15-1.54.54 0 .8.41.8.89 0 .54-.35 1.35-.52 2.1-.15.63.32 1.14.94 1.14 1.13 0 2-1.19 2-2.91 0-1.52-1.09-2.58-2.65-2.58-1.8 0-2.86 1.35-2.86 2.75 0 .55.21 1.13.47 1.45.05.06.06.12.04.18l-.18.71c-.03.11-.09.13-.21.08-0.79-.37-1.29-1.52-1.29-2.45 0-2 1.45-3.83 4.19-3.83 2.2 0 3.91 1.57 3.91 3.66 0 2.18-1.38 3.94-3.29 3.94-.64 0-1.25-.33-1.45-.73l-.39 1.5c-.14.55-.53 1.23-.79 1.65.59.18 1.23.28 1.88.28 4.14 0 7.5-3.36 7.5-7.5S16.64 4 12.5 4z"/>
+                                </svg>
+                                <span id="currentSource" style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">Image Inspiration</span>
+                            </div>
+                            <!-- Toggle Buttons -->
+                            <div style="display: flex; gap: 0.5rem; background: var(--surface); border-radius: 8px; padding: 0.25rem;">
+                                <button class="source-toggle-btn" data-source="pinterest" style="flex: 1; padding: 0.5rem; border: none; background: var(--primary-color); color: white; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s;">
+                                    Pinterest
+                                </button>
+                                <button class="source-toggle-btn" data-source="unsplash" style="flex: 1; padding: 0.5rem; border: none; background: transparent; color: var(--text-secondary); border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s;">
+                                    Unsplash
+                                </button>
+                                <button class="source-toggle-btn" data-source="pexels" style="flex: 1; padding: 0.5rem; border: none; background: transparent; color: var(--text-secondary); border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s;">
+                                    Pexels
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Content Area -->
+                        <div style="flex: 1; overflow: hidden; position: relative; display: flex; flex-direction: column;">
+                            <!-- Pinterest Board Selector (shown when Pinterest is selected) -->
+                            <div id="pinterestContent" style="display: flex; flex-direction: column; height: 100%;">
+                                <!-- Custom Board URL Input -->
+                                <div style="padding: 1rem; background: var(--surface); border-bottom: 1px solid var(--border-color);">
+                                    <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+                                        Enter Pinterest Board URL:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="customBoardUrl"
+                                        placeholder="e.g., pinterest.com/username/board-name/"
+                                        style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--background); color: var(--text-primary); font-size: 0.9rem; margin-bottom: 0.5rem;"
+                                    >
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <button id="loadCustomBoard" style="padding: 0.6rem; background: #E60023; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;">
+                                            Load Board
+                                        </button>
+                                        <button id="saveBoard" style="padding: 0.6rem; background: var(--primary-color); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;">
+                                            Save Board
+                                        </button>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">
+                                        Paste any public Pinterest board URL. Example:<br>
+                                        <code style="background: var(--background); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.7rem;">pinterest.com/lovable/product-ideas/</code>
+                                    </p>
+                                </div>
+
+                                <!-- Saved Boards List -->
+                                <div id="savedBoardsContainer" style="padding: 1rem; background: var(--surface); border-bottom: 1px solid var(--border-color); max-height: 200px; overflow-y: auto;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
+                                            Saved Boards
+                                        </label>
+                                        <span id="savedBoardsCount" style="font-size: 0.75rem; color: var(--text-secondary); background: var(--background); padding: 0.2rem 0.5rem; border-radius: 12px;">
+                                            0 saved
+                                        </span>
+                                    </div>
+                                    <div id="savedBoardsList" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                        <!-- Saved boards will be inserted here -->
+                                        <div style="text-align: center; padding: 1.5rem 1rem; color: var(--text-secondary); font-size: 0.85rem;">
+                                            No saved boards yet. Save your favorite boards for quick access!
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Pinterest Widget Container -->
+                                <div id="pinterestWidgetContainer" style="flex: 1; overflow: auto; padding: 1rem; background: var(--background);">
+                                    <div style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
+                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style="margin: 0 auto 1rem; opacity: 0.3;">
+                                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M12.5 4C8.36 4 5 7.36 5 11.5c0 2.89 1.64 5.41 4.05 6.67-.06-.54-.1-1.38.02-1.97l.74-3.14s-.19-.38-.19-.94c0-.88.51-1.54 1.15-1.54.54 0 .8.41.8.89 0 .54-.35 1.35-.52 2.1-.15.63.32 1.14.94 1.14 1.13 0 2-1.19 2-2.91 0-1.52-1.09-2.58-2.65-2.58-1.8 0-2.86 1.35-2.86 2.75 0 .55.21 1.13.47 1.45.05.06.06.12.04.18l-.18.71c-.03.11-.09.13-.21.08-0.79-.37-1.29-1.52-1.29-2.45 0-2 1.45-3.83 4.19-3.83 2.2 0 3.91 1.57 3.91 3.66 0 2.18-1.38 3.94-3.29 3.94-.64 0-1.25-.33-1.45-.73l-.39 1.5c-.14.55-.53 1.23-.79 1.65.59.18 1.23.28 1.88.28 4.14 0 7.5-3.36 7.5-7.5S16.64 4 12.5 4z" fill="currentColor" opacity="0.3"/>
+                                        </svg>
+                                        <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem;">Pinterest Board Widget</h3>
+                                        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                            Enter a Pinterest board URL above to load the widget here.
+                                        </p>
+                                        <p style="font-size: 0.8rem; opacity: 0.7;">
+                                            ✓ Works with public boards<br>
+                                            ✓ Browse pins without leaving this page<br>
+                                            ✓ Get instant inspiration
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Iframe Container (for Unsplash/Pexels) -->
+                            <iframe
+                                id="contentIframe"
+                                style="width: 100%; height: 100%; border: none; display: none;"
+                                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Form & Preview -->
+                <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 2.5rem;">
+                    <!-- Toggle Header -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border-color);">
+                        <div>
+                            <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-primary);">Add New Product</h1>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem;">Fill in the details or preview your product</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; background: var(--background); border-radius: 8px; padding: 0.25rem;">
+                            <button id="showFormBtn" class="toggle-btn active" style="padding: 0.5rem 1rem; border: none; background: var(--primary-color); color: white; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+                                Form
+                            </button>
+                            <button id="showPreviewBtn" class="toggle-btn" style="padding: 0.5rem 1rem; border: none; background: transparent; color: var(--text-secondary); border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Form View -->
+                    <div id="formView">
+                    <!-- Add Product Form -->
+            <form id="addProductForm" class="auth-form">
+                <!-- Image Upload Section -->
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label style="display: block; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">
+                        Product Images
+                    </label>
+
+                    <!-- Upload Area -->
+                    <div id="imageUploadArea" style="border: 2px dashed var(--border-color); border-radius: 12px; padding: 2rem; text-align: center; background: var(--background); transition: all 0.3s; cursor: pointer; position: relative;">
+                        <input type="file" id="imageFileInput" accept="image/*" multiple style="display: none;">
+
+                        <div id="uploadPlaceholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" style="margin: 0 auto 1rem; opacity: 0.5;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+                                Upload Product Images
+                            </h4>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                                Drag & drop images here, or click to browse
+                            </p>
+                            <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem;">
+                                <button type="button" id="browseBtn" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                    Browse Files
+                                </button>
+                                <button type="button" id="pasteBtn" style="padding: 0.6rem 1.25rem; background: var(--surface); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                    Paste from Clipboard
+                                </button>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary);">
+                                Supports: JPG, PNG, GIF, WebP • Max size: 10MB
+                            </p>
+                        </div>
+
+                        <!-- Image Previews -->
+                        <div id="imagePreviewsContainer" style="display: none;">
+                            <div id="imagePreviews" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <!-- Image previews will be inserted here -->
+                            </div>
+                            <button type="button" id="addMoreImages" style="padding: 0.6rem 1.25rem; background: var(--surface); color: var(--primary-color); border: 1px solid var(--primary-color); border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                + Add More Images
+                            </button>
+                        </div>
+                    </div>
+
+                    <small class="form-hint" style="display: block; margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        💡 Tip: Press <kbd id="pasteShortcut" style="background: var(--surface); padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid var(--border-color); font-family: monospace;">Ctrl+V</kbd> to paste images from clipboard
+                    </small>
+                </div>
+
+                <!-- Image Enhancement Options -->
+                <div id="imageEnhancementSection" class="form-group" style="display: none; margin-bottom: 2rem;">
+                    <label style="display: block; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+                        Image Enhancement
+                    </label>
+
+                    <!-- Selection Info -->
+                    <div style="padding: 0.75rem 1rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px; margin-bottom: 1rem;">
+                        <p style="font-size: 0.85rem; color: var(--primary-color); margin: 0; font-weight: 500;">
+                            <span id="selectedImageCount">0</span> image(s) selected • Click images to select/deselect
+                        </p>
+                    </div>
+
+                    <div style="display: grid; gap: 1rem;">
+                        <!-- Background Removal Toggle -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--background); border: 1px solid var(--border-color); border-radius: 8px; transition: all 0.2s;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                        <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+                                        <polyline points="7.5 19.79 7.5 14.6 3 12"/>
+                                        <polyline points="21 12 16.5 14.6 16.5 19.79"/>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                    </svg>
+                                    <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary);">
+                                        Background Removal
+                                    </h4>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; padding-left: 1.65rem;">
+                                    Remove background from selected images
+                                </p>
+                            </div>
+                            <button type="button" id="backgroundRemovalBtn" class="enhancement-btn" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem;">
+                                Apply to Selected
+                            </button>
+                        </div>
+
+                        <!-- Super Resolution Toggle -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--background); border: 1px solid var(--border-color); border-radius: 8px; transition: all 0.2s;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2">
+                                        <polyline points="16 18 22 12 16 6"/>
+                                        <polyline points="8 6 2 12 8 18"/>
+                                        <line x1="12" y1="2" x2="12" y2="22"/>
+                                    </svg>
+                                    <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary);">
+                                        Super Resolution (AI Upscale)
+                                    </h4>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; padding-left: 1.65rem;">
+                                    Enhance quality of selected images (2x resolution)
+                                </p>
+                            </div>
+                            <button type="button" id="superResolutionBtn" class="enhancement-btn" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem;">
+                                Apply to Selected
+                            </button>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                            <button type="button" id="selectAllBtn" style="padding: 0.4rem 0.75rem; background: var(--surface); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                Select All
+                            </button>
+                            <button type="button" id="clearEnhancementsBtn" style="padding: 0.4rem 0.75rem; background: var(--surface); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                Clear All Enhancements
+                            </button>
+                        </div>
+                    </div>
+
+                    <small class="form-hint" style="display: block; margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        💡 Select images by clicking them, then apply enhancements
+                    </small>
+                </div>
+
+                <!-- Product Name -->
+                <div class="form-group">
+                    <label for="productTitle">Product Name *</label>
+                    <input
+                        type="text"
+                        id="productTitle"
+                        name="title"
+                        required
+                        placeholder="e.g., AI Builder Hoodie"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <!-- Product Description -->
+                <div class="form-group">
+                    <label for="productDescription">Description *</label>
+                    <textarea
+                        id="productDescription"
+                        name="description"
+                        required
+                        placeholder="Enter product description..."
+                        rows="4"
+                        style="padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background); color: var(--text-primary); font-size: 1rem; font-family: inherit; resize: vertical;"
+                    ></textarea>
+                </div>
+
+                <!-- Price and Compare Price -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Price *</label>
+                        <input
+                            type="number"
+                            id="productPrice"
+                            name="price"
+                            required
+                            placeholder="29.99"
+                            step="0.01"
+                            min="0"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productComparePrice">Compare at Price</label>
+                        <input
+                            type="number"
+                            id="productComparePrice"
+                            name="comparePrice"
+                            placeholder="39.99"
+                            step="0.01"
+                            min="0"
+                        >
+                        <small class="form-hint">Original price (for sale display)</small>
+                    </div>
+                </div>
+
+                <!-- Product Type and Vendor -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productType">Product Type</label>
+                        <input
+                            type="text"
+                            id="productType"
+                            name="type"
+                            placeholder="e.g., Hoodies"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productVendor">Vendor</label>
+                        <input
+                            type="text"
+                            id="productVendor"
+                            name="vendor"
+                            placeholder="e.g., Lovable Supply"
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+
+                <!-- SKU and Inventory -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productSKU">SKU</label>
+                        <input
+                            type="text"
+                            id="productSKU"
+                            name="sku"
+                            placeholder="e.g., AIH-001"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productInventory">Inventory Quantity</label>
+                        <input
+                            type="number"
+                            id="productInventory"
+                            name="inventory"
+                            placeholder="100"
+                            min="0"
+                        >
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="form-group">
+                    <label for="productTags">Tags</label>
+                    <input
+                        type="text"
+                        id="productTags"
+                        name="tags"
+                        placeholder="ai, hoodie, developer (comma separated)"
+                        autocomplete="off"
+                    >
+                    <small class="form-hint">Separate tags with commas</small>
+                </div>
+
+                <!-- Image URL -->
+                <div class="form-group">
+                    <label for="productImage">Product Image URL</label>
+                    <input
+                        type="url"
+                        id="productImage"
+                        name="imageUrl"
+                        placeholder="https://example.com/image.jpg"
+                        autocomplete="off"
+                    >
+                    <small class="form-hint">Enter a public image URL</small>
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="productActive" name="active" checked>
+                        <span>Publish product immediately (set as Active)</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                    <span class="btn-text">Add Product to Shopify</span>
+                    <span class="btn-loader" style="display: none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" stroke-dasharray="31.4 31.4" stroke-dashoffset="0">
+                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </span>
+                </button>
+
+                <div class="form-divider">
+                    <span>or</span>
+                </div>
+
+                <div class="auth-switch">
+                    <a href="account.html" class="link">← Back to Dashboard</a>
+                </div>
+                    </form>
+
+                    <!-- Info Notice -->
+                    <div class="demo-info" style="margin-top: 1.5rem;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span>This form will create a new product in your Shopify store. Make sure you have admin access configured.</span>
+                    </div>
+                </div>
+
+                <!-- Preview View (initially hidden) -->
+                <div id="previewView" style="display: none;">
+                    <!-- Product Preview Card -->
+                    <div id="productPreview" style="background: var(--background); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);">
+                        <!-- Product Image Gallery -->
+                        <div style="position: relative;">
+                            <!-- Main Image Display -->
+                            <div id="previewImage" style="width: 100%; height: 400px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 5rem;">
+                                📦
+                            </div>
+
+                            <!-- Gallery Navigation (shown when multiple images) -->
+                            <div id="previewGalleryNav" style="display: none; position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.7); padding: 0.5rem; border-radius: 8px; display: flex; gap: 0.5rem; align-items: center;">
+                                <button id="prevImageBtn" type="button" style="background: rgba(255, 255, 255, 0.2); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.2s;">
+                                    ‹
+                                </button>
+                                <span id="imageCounter" style="color: white; font-size: 0.85rem; font-weight: 600; padding: 0 0.5rem;"></span>
+                                <button id="nextImageBtn" type="button" style="background: rgba(255, 255, 255, 0.2); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.2s;">
+                                    ›
+                                </button>
+                            </div>
+
+                            <!-- Thumbnail Gallery (shown when multiple images) -->
+                            <div id="previewThumbnails" style="display: none; padding: 1rem; background: var(--surface); border-top: 1px solid var(--border-color);">
+                                <div style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem;">
+                                    <!-- Thumbnails will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Info -->
+                        <div style="padding: 2rem;">
+                            <!-- Product Type -->
+                            <div id="previewType" style="color: var(--primary-color); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem;">
+                                Product Type
+                            </div>
+
+                            <!-- Product Title -->
+                            <h2 id="previewTitle" style="font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; line-height: 1.3;">
+                                Product Name
+                            </h2>
+
+                            <!-- Product Description -->
+                            <p id="previewDescription" style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Product description will appear here...
+                            </p>
+
+                            <!-- Price Section -->
+                            <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.5rem;">
+                                <span id="previewPrice" style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">
+                                    $0.00
+                                </span>
+                                <span id="previewComparePrice" style="font-size: 1.25rem; color: var(--text-secondary); text-decoration: line-through; display: none;">
+                                    $0.00
+                                </span>
+                            </div>
+
+                            <!-- Tags -->
+                            <div id="previewTags" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+                                <!-- Tags will be inserted here -->
+                            </div>
+
+                            <!-- Add to Cart Button (Preview only) -->
+                            <button style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: not-allowed; opacity: 0.7;">
+                                Add to Cart (Preview)
+                            </button>
+
+                            <!-- Preview Notice -->
+                            <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px; text-align: center;">
+                                <span style="color: var(--primary-color); font-size: 0.85rem; font-weight: 500;">
+                                    This is how your product will appear to customers
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lovable Supply</h3>
+                    <p>Official merchandise for AI builders</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="cart.html">My Cart</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Powered by</h4>
+                    <p><a href="https://lovable.dev" target="_blank">Lovable</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lovable Supply. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="closeCart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <!-- Scripts -->
+    <script src="config/shopify.js"></script>
+    <script src="services/shopify-api.js"></script>
+    <script src="services/auth-service.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Pinterest Widget Script -->
+    <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+
+    <!-- Add Product Script -->
+    <script>
+        // Image Source Toggle Management
+        const sourceToggleBtns = document.querySelectorAll('.source-toggle-btn');
+        const pinterestContent = document.getElementById('pinterestContent');
+        const contentIframe = document.getElementById('contentIframe');
+        const currentSource = document.getElementById('currentSource');
+        const currentIcon = document.getElementById('currentIcon');
+
+        // Icons for each source
+        const icons = {
+            pinterest: `<path d="M12.5 4C8.36 4 5 7.36 5 11.5c0 2.89 1.64 5.41 4.05 6.67-.06-.54-.1-1.38.02-1.97l.74-3.14s-.19-.38-.19-.94c0-.88.51-1.54 1.15-1.54.54 0 .8.41.8.89 0 .54-.35 1.35-.52 2.1-.15.63.32 1.14.94 1.14 1.13 0 2-1.19 2-2.91 0-1.52-1.09-2.58-2.65-2.58-1.8 0-2.86 1.35-2.86 2.75 0 .55.21 1.13.47 1.45.05.06.06.12.04.18l-.18.71c-.03.11-.09.13-.21.08-0.79-.37-1.29-1.52-1.29-2.45 0-2 1.45-3.83 4.19-3.83 2.2 0 3.91 1.57 3.91 3.66 0 2.18-1.38 3.94-3.29 3.94-.64 0-1.25-.33-1.45-.73l-.39 1.5c-.14.55-.53 1.23-.79 1.65.59.18 1.23.28 1.88.28 4.14 0 7.5-3.36 7.5-7.5S16.64 4 12.5 4z"/>`,
+            unsplash: `<path d="M8 3h8v5H8V3zm0 7h16v13H0V10h8z"/>`,
+            pexels: `<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h4a3 3 0 0 1 0 6h-2v3H8V7z"/>`
+        };
+
+        const iconColors = {
+            pinterest: '#E60023',
+            unsplash: '#000',
+            pexels: '#05A081'
+        };
+
+        // Handle source toggle
+        sourceToggleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const source = this.dataset.source;
+
+                // Update button styles
+                sourceToggleBtns.forEach(b => {
+                    b.style.background = 'transparent';
+                    b.style.color = 'var(--text-secondary)';
+                });
+                this.style.background = 'var(--primary-color)';
+                this.style.color = 'white';
+
+                // Load content based on source
+                if (source === 'pinterest') {
+                    pinterestContent.style.display = 'flex';
+                    contentIframe.style.display = 'none';
+                    currentSource.textContent = 'Pinterest Boards';
+                    currentIcon.setAttribute('fill', iconColors.pinterest);
+                    currentIcon.innerHTML = icons.pinterest;
+                } else if (source === 'unsplash') {
+                    pinterestContent.style.display = 'none';
+                    contentIframe.style.display = 'block';
+                    // Unsplash also blocks iframes, open in new tab instead
+                    contentIframe.style.display = 'none';
+                    pinterestContent.style.display = 'flex';
+                    pinterestWidgetContainer.innerHTML = `
+                        <div style="text-align: center; padding: 3rem 1rem;">
+                            <svg width="80" height="80" viewBox="0 0 24 24" style="margin: 0 auto 1.5rem;">
+                                <rect fill="#000" width="80" height="80" rx="8"/>
+                                <path fill="#fff" d="M8 3h8v5H8V3zm0 7h16v13H0V10h8z" transform="translate(16 16)"/>
+                            </svg>
+                            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">Unsplash</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">Unsplash also blocks iframe embedding. Click below to open in a new tab.</p>
+                            <button onclick="window.open('https://unsplash.com/s/photos/product-photography', '_blank')" style="padding: 0.875rem 1.5rem; background: #000; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                Open Unsplash
+                            </button>
+                        </div>
+                    `;
+                    currentSource.textContent = 'Unsplash';
+                    currentIcon.setAttribute('fill', iconColors.unsplash);
+                    currentIcon.innerHTML = icons.unsplash;
+                } else if (source === 'pexels') {
+                    pinterestContent.style.display = 'none';
+                    contentIframe.style.display = 'block';
+                    // Try Pexels
+                    contentIframe.src = 'https://www.pexels.com/search/product%20photography/';
+                    currentSource.textContent = 'Pexels';
+                    currentIcon.setAttribute('fill', iconColors.pexels);
+                    currentIcon.innerHTML = icons.pexels;
+                    showNotification('Loading Pexels - free stock photos!');
+                }
+            });
+
+            // Hover effects
+            btn.addEventListener('mouseenter', function() {
+                if (this.style.background === 'transparent' || this.style.background === '') {
+                    this.style.background = 'var(--background)';
+                }
+            });
+
+            btn.addEventListener('mouseleave', function() {
+                if (this.style.color === 'var(--text-secondary)' || !this.style.color.includes('white')) {
+                    this.style.background = 'transparent';
+                }
+            });
+        });
+
+        // Pinterest Board Management
+        const customBoardUrl = document.getElementById('customBoardUrl');
+        const loadCustomBoard = document.getElementById('loadCustomBoard');
+        const pinterestWidgetContainer = document.getElementById('pinterestWidgetContainer');
+        const saveBoard = document.getElementById('saveBoard');
+        const savedBoardsList = document.getElementById('savedBoardsList');
+        const savedBoardsCount = document.getElementById('savedBoardsCount');
+
+        // Saved Boards Management
+        const STORAGE_KEY = 'lovable_saved_pinterest_boards';
+
+        // Load saved boards from localStorage
+        function getSavedBoards() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : [];
+            } catch (error) {
+                console.error('Error loading saved boards:', error);
+                return [];
+            }
+        }
+
+        // Save boards to localStorage
+        function setSavedBoards(boards) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(boards));
+                renderSavedBoards();
+            } catch (error) {
+                console.error('Error saving boards:', error);
+                showNotification('Error saving board');
+            }
+        }
+
+        // Extract board name from URL
+        function getBoardName(url) {
+            try {
+                const urlObj = new URL(url.startsWith('http') ? url : 'https://' + url);
+                const pathParts = urlObj.pathname.split('/').filter(p => p);
+                if (pathParts.length >= 2) {
+                    // Format: /username/board-name/
+                    return `${pathParts[0]}/${pathParts[1]}`;
+                }
+                return url;
+            } catch {
+                return url;
+            }
+        }
+
+        // Render saved boards list
+        function renderSavedBoards() {
+            const boards = getSavedBoards();
+            savedBoardsCount.textContent = `${boards.length} saved`;
+
+            if (boards.length === 0) {
+                savedBoardsList.innerHTML = `
+                    <div style="text-align: center; padding: 1.5rem 1rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        No saved boards yet. Save your favorite boards for quick access!
+                    </div>
+                `;
+                return;
+            }
+
+            savedBoardsList.innerHTML = boards.map((board, index) => `
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: var(--background); border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" class="saved-board-item">
+                    <button onclick="loadSavedBoard(${index})" style="flex: 1; text-align: left; padding: 0.5rem; background: transparent; border: none; cursor: pointer; color: var(--text-primary); font-size: 0.85rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#E60023" style="vertical-align: middle; margin-right: 0.5rem;">
+                            <path d="M12.5 4C8.36 4 5 7.36 5 11.5c0 2.89 1.64 5.41 4.05 6.67-.06-.54-.1-1.38.02-1.97l.74-3.14s-.19-.38-.19-.94c0-.88.51-1.54 1.15-1.54.54 0 .8.41.8.89 0 .54-.35 1.35-.52 2.1-.15.63.32 1.14.94 1.14 1.13 0 2-1.19 2-2.91 0-1.52-1.09-2.58-2.65-2.58-1.8 0-2.86 1.35-2.86 2.75 0 .55.21 1.13.47 1.45.05.06.06.12.04.18l-.18.71c-.03.11-.09.13-.21.08-0.79-.37-1.29-1.52-1.29-2.45 0-2 1.45-3.83 4.19-3.83 2.2 0 3.91 1.57 3.91 3.66 0 2.18-1.38 3.94-3.29 3.94-.64 0-1.25-.33-1.45-.73l-.39 1.5c-.14.55-.53 1.23-.79 1.65.59.18 1.23.28 1.88.28 4.14 0 7.5-3.36 7.5-7.5S16.64 4 12.5 4z"/>
+                        </svg>
+                        ${board.name}
+                    </button>
+                    <button onclick="deleteSavedBoard(${index})" style="padding: 0.5rem; background: transparent; border: none; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; border-radius: 4px;" onmouseenter="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.color='#ef4444'" onmouseleave="this.style.background='transparent'; this.style.color='var(--text-secondary)'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+
+            // Add hover effect to board items
+            document.querySelectorAll('.saved-board-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.2)';
+                    this.style.transform = 'translateY(-1px)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        }
+
+        // Save current board
+        saveBoard.addEventListener('click', function() {
+            let url = customBoardUrl.value.trim();
+
+            if (!url) {
+                showNotification('Please enter a Pinterest board URL first');
+                return;
+            }
+
+            // Clean up URL
+            url = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
+            if (!url.includes('pinterest.com')) {
+                showNotification('Please enter a valid Pinterest board URL');
+                return;
+            }
+
+            const fullUrl = 'https://' + url;
+            const boardName = getBoardName(url);
+
+            // Check if already saved
+            const boards = getSavedBoards();
+            if (boards.some(b => b.url === fullUrl)) {
+                showNotification('This board is already saved!');
+                return;
+            }
+
+            // Add to saved boards
+            boards.push({
+                name: boardName,
+                url: fullUrl,
+                savedAt: new Date().toISOString()
+            });
+
+            setSavedBoards(boards);
+            showNotification('Board saved successfully! 📌');
+        });
+
+        // Load a saved board
+        window.loadSavedBoard = function(index) {
+            const boards = getSavedBoards();
+            if (boards[index]) {
+                customBoardUrl.value = boards[index].url;
+                loadPinterestBoard(boards[index].url);
+                showNotification(`Loading ${boards[index].name}...`);
+            }
+        };
+
+        // Delete a saved board
+        window.deleteSavedBoard = function(index) {
+            const boards = getSavedBoards();
+            const boardName = boards[index].name;
+            boards.splice(index, 1);
+            setSavedBoards(boards);
+            showNotification(`Removed ${boardName}`);
+        };
+
+        // Initial render
+        renderSavedBoards();
+
+        // Load board from URL input
+        loadCustomBoard.addEventListener('click', function() {
+            let url = customBoardUrl.value.trim();
+
+            if (!url) {
+                showNotification('Please enter a Pinterest board URL');
+                return;
+            }
+
+            // Clean up the URL
+            // Remove protocol if present
+            url = url.replace(/^https?:\/\//, '');
+            // Remove www if present
+            url = url.replace(/^www\./, '');
+            // Ensure it starts with pinterest.com
+            if (!url.includes('pinterest.com')) {
+                showNotification('Please enter a valid Pinterest board URL');
+                return;
+            }
+            // Add https:// back
+            const fullUrl = 'https://' + url;
+
+            loadPinterestBoard(fullUrl);
+        });
+
+        // Also load on Enter key
+        customBoardUrl.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadCustomBoard.click();
+            }
+        });
+
+        // Add hover effects to buttons
+        loadCustomBoard.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px)';
+            this.style.boxShadow = '0 4px 12px rgba(230, 0, 35, 0.3)';
+        });
+
+        loadCustomBoard.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+
+        saveBoard.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px)';
+            this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+        });
+
+        saveBoard.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+
+        let pinterestPopup = null;
+
+        function loadPinterestBoard(boardUrl) {
+            // Close existing popup if open
+            if (pinterestPopup && !pinterestPopup.closed) {
+                pinterestPopup.close();
+            }
+
+            // Calculate dimensions for left side popup
+            const screenWidth = window.screen.availWidth;
+            const screenHeight = window.screen.availHeight;
+
+            // Make popup take up left half of screen
+            const popupWidth = Math.floor(screenWidth / 2);
+            const popupHeight = screenHeight;
+            const left = 0; // Position at left edge
+            const top = 0;
+
+            // Open popup positioned on left side
+            pinterestPopup = window.open(
+                boardUrl,
+                'PinterestBoard',
+                `width=${popupWidth},height=${popupHeight},left=${left},top=${top},toolbar=yes,location=yes,menubar=no,resizable=yes,scrollbars=yes`
+            );
+
+            if (pinterestPopup) {
+                pinterestPopup.focus();
+                showNotification('Pinterest board opened on left side of screen!');
+
+                // Update container with info
+                pinterestWidgetContainer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem 1rem;">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" style="margin: 0 auto 1.5rem;">
+                            <circle cx="12" cy="12" r="10" stroke="#E60023" stroke-width="1.5"/>
+                            <path d="M12.5 4C8.36 4 5 7.36 5 11.5c0 2.89 1.64 5.41 4.05 6.67-.06-.54-.1-1.38.02-1.97l.74-3.14s-.19-.38-.19-.94c0-.88.51-1.54 1.15-1.54.54 0 .8.41.8.89 0 .54-.35 1.35-.52 2.1-.15.63.32 1.14.94 1.14 1.13 0 2-1.19 2-2.91 0-1.52-1.09-2.58-2.65-2.58-1.8 0-2.86 1.35-2.86 2.75 0 .55.21 1.13.47 1.45.05.06.06.12.04.18l-.18.71c-.03.11-.09.13-.21.08-0.79-.37-1.29-1.52-1.29-2.45 0-2 1.45-3.83 4.19-3.83 2.2 0 3.91 1.57 3.91 3.66 0 2.18-1.38 3.94-3.29 3.94-.64 0-1.25-.33-1.45-.73l-.39 1.5c-.14.55-.53 1.23-.79 1.65.59.18 1.23.28 1.88.28 4.14 0 7.5-3.36 7.5-7.5S16.64 4 12.5 4z" fill="#E60023"/>
+                        </svg>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">
+                            ✓ Pinterest Board Opened
+                        </h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                            Pinterest board is now open on the left side of your screen. You can browse pins while working on your product form.
+                        </p>
+                        <div style="background: rgba(99, 102, 241, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <p style="color: var(--primary-color); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">
+                                💡 Pro Tip:
+                            </p>
+                            <p style="color: var(--text-secondary); font-size: 0.8rem; line-height: 1.5;">
+                                Arrange windows side-by-side: Pinterest on left, this page on right. Perfect for getting inspiration while creating products!
+                            </p>
+                        </div>
+                        <button onclick="pinterestPopup && pinterestPopup.focus()" style="padding: 0.75rem 1.5rem; background: #E60023; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-right: 0.5rem;">
+                            Focus Pinterest Window
+                        </button>
+                        <button onclick="document.getElementById('customBoardUrl').value = ''; document.querySelector('#pinterestWidgetContainer').innerHTML = document.querySelector('#pinterestWidgetContainer').innerHTML.replace(/✓ Pinterest Board Opened[\\s\\S]*/g, '<div style=\\"text-align: center; padding: 3rem 1rem; color: var(--text-secondary);\\"><h3 style=\\"font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem;\\">Pinterest Board Widget</h3><p style=\\"font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;\\">Enter a Pinterest board URL above to load the widget here.</p></div>');" style="padding: 0.75rem 1.5rem; background: var(--surface); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                            Load Another Board
+                        </button>
+                    </div>
+                `;
+            } else {
+                showNotification('Please allow popups for this site');
+                pinterestWidgetContainer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
+                        <h3 style="font-size: 1rem; color: #e74c3c; margin-bottom: 1rem;">⚠️ Popup Blocked</h3>
+                        <p style="margin-bottom: 1rem;">Your browser blocked the popup. Please allow popups for this site.</p>
+                        <a href="${boardUrl}" target="_blank" style="display: inline-block; padding: 0.75rem 1.5rem; background: #E60023; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                            Open Board Manually
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        // Toggle between Form and Preview views
+        const showFormBtn = document.getElementById('showFormBtn');
+        const showPreviewBtn = document.getElementById('showPreviewBtn');
+        const formView = document.getElementById('formView');
+        const previewView = document.getElementById('previewView');
+
+        // Show Form View
+        showFormBtn.addEventListener('click', () => {
+            formView.style.display = 'block';
+            previewView.style.display = 'none';
+
+            // Update button styles
+            showFormBtn.style.background = 'var(--primary-color)';
+            showFormBtn.style.color = 'white';
+            showFormBtn.classList.add('active');
+
+            showPreviewBtn.style.background = 'transparent';
+            showPreviewBtn.style.color = 'var(--text-secondary)';
+            showPreviewBtn.classList.remove('active');
+        });
+
+        // Show Preview View
+        showPreviewBtn.addEventListener('click', () => {
+            formView.style.display = 'none';
+            previewView.style.display = 'block';
+
+            // Reset to first image
+            currentPreviewImageIndex = 0;
+
+            // Update preview with current form data
+            updatePreview();
+
+            // Update button styles
+            showPreviewBtn.style.background = 'var(--primary-color)';
+            showPreviewBtn.style.color = 'white';
+            showPreviewBtn.classList.add('active');
+
+            showFormBtn.style.background = 'transparent';
+            showFormBtn.style.color = 'var(--text-secondary)';
+            showFormBtn.classList.remove('active');
+        });
+
+        // Preview Gallery System
+        let currentPreviewImageIndex = 0;
+        const previewGalleryNav = document.getElementById('previewGalleryNav');
+        const previewThumbnails = document.getElementById('previewThumbnails');
+        const prevImageBtn = document.getElementById('prevImageBtn');
+        const nextImageBtn = document.getElementById('nextImageBtn');
+        const imageCounter = document.getElementById('imageCounter');
+
+        // Navigate to previous image
+        prevImageBtn.addEventListener('click', () => {
+            if (uploadedImages.length > 0) {
+                currentPreviewImageIndex = (currentPreviewImageIndex - 1 + uploadedImages.length) % uploadedImages.length;
+                updatePreviewGallery();
+            }
+        });
+
+        // Navigate to next image
+        nextImageBtn.addEventListener('click', () => {
+            if (uploadedImages.length > 0) {
+                currentPreviewImageIndex = (currentPreviewImageIndex + 1) % uploadedImages.length;
+                updatePreviewGallery();
+            }
+        });
+
+        // Update preview gallery
+        function updatePreviewGallery() {
+            const imageEl = document.getElementById('previewImage');
+
+            if (uploadedImages.length === 0) {
+                imageEl.innerHTML = '📦';
+                imageEl.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                imageEl.style.display = 'flex';
+                imageEl.style.alignItems = 'center';
+                imageEl.style.justifyContent = 'center';
+                previewGalleryNav.style.display = 'none';
+                previewThumbnails.style.display = 'none';
+                return;
+            }
+
+            // Show current image
+            const currentImage = uploadedImages[currentPreviewImageIndex];
+            imageEl.innerHTML = `<img src="${currentImage.url}" alt="${currentImage.name}" style="width: 100%; height: 100%; object-fit: contain; background: var(--background);">`;
+
+            // Show/hide gallery controls
+            if (uploadedImages.length > 1) {
+                previewGalleryNav.style.display = 'flex';
+                previewThumbnails.style.display = 'block';
+                imageCounter.textContent = `${currentPreviewImageIndex + 1} / ${uploadedImages.length}`;
+
+                // Render thumbnails
+                const thumbnailContainer = previewThumbnails.querySelector('div');
+                thumbnailContainer.innerHTML = uploadedImages.map((img, index) => {
+                    const hasEnhancements = img.enhancements && (img.enhancements.backgroundRemoval || img.enhancements.superResolution);
+                    let enhancementBadge = '';
+                    if (hasEnhancements) {
+                        let badges = [];
+                        if (img.enhancements.backgroundRemoval) badges.push('🎨');
+                        if (img.enhancements.superResolution) badges.push('✨');
+                        enhancementBadge = `<div style="position: absolute; top: 2px; right: 2px; background: rgba(0, 0, 0, 0.7); color: white; padding: 2px 4px; border-radius: 4px; font-size: 0.7rem; line-height: 1; z-index: 1;">${badges.join(' ')}</div>`;
+                    }
+                    return `
+                        <div onclick="setPreviewImage(${index})" style="position: relative; width: 80px; height: 80px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 3px solid ${index === currentPreviewImageIndex ? 'var(--primary-color)' : 'var(--border-color)'}; flex-shrink: 0; transition: all 0.2s;">
+                            <img src="${img.url}" alt="${img.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                            ${enhancementBadge}
+                            ${index === currentPreviewImageIndex ? '<div style="position: absolute; inset: 0; background: rgba(99, 102, 241, 0.2); border: 2px solid white; box-sizing: border-box;"></div>' : ''}
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                previewGalleryNav.style.display = 'none';
+                previewThumbnails.style.display = 'none';
+            }
+        }
+
+        // Set preview to specific image
+        window.setPreviewImage = function(index) {
+            currentPreviewImageIndex = index;
+            updatePreviewGallery();
+        };
+
+        // Keyboard navigation for preview gallery
+        document.addEventListener('keydown', (e) => {
+            // Only handle arrow keys when preview is visible
+            if (previewView.style.display === 'block' && uploadedImages.length > 1) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevImageBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextImageBtn.click();
+                }
+            }
+        });
+
+        // Live Preview Updates
+        const updatePreview = () => {
+            // Title
+            const title = document.getElementById('productTitle').value || 'Product Name';
+            document.getElementById('previewTitle').textContent = title;
+
+            // Description
+            const description = document.getElementById('productDescription').value || 'Product description will appear here...';
+            document.getElementById('previewDescription').textContent = description;
+
+            // Price
+            const price = document.getElementById('productPrice').value;
+            document.getElementById('previewPrice').textContent = price ? `$${parseFloat(price).toFixed(2)}` : '$0.00';
+
+            // Compare Price
+            const comparePrice = document.getElementById('productComparePrice').value;
+            const comparePriceEl = document.getElementById('previewComparePrice');
+            if (comparePrice && parseFloat(comparePrice) > 0) {
+                comparePriceEl.textContent = `$${parseFloat(comparePrice).toFixed(2)}`;
+                comparePriceEl.style.display = 'inline';
+            } else {
+                comparePriceEl.style.display = 'none';
+            }
+
+            // Product Type
+            const type = document.getElementById('productType').value || 'Product Type';
+            document.getElementById('previewType').textContent = type;
+
+            // Tags
+            const tags = document.getElementById('productTags').value;
+            const tagsContainer = document.getElementById('previewTags');
+            tagsContainer.innerHTML = '';
+            if (tags) {
+                tags.split(',').forEach(tag => {
+                    const tagEl = document.createElement('span');
+                    tagEl.style.cssText = 'padding: 0.25rem 0.75rem; background: rgba(99, 102, 241, 0.1); color: var(--primary-color); border-radius: 20px; font-size: 0.85rem; font-weight: 500;';
+                    tagEl.textContent = tag.trim();
+                    tagsContainer.appendChild(tagEl);
+                });
+            }
+
+            // Update gallery with all uploaded images
+            updatePreviewGallery();
+        };
+
+        // Attach event listeners for live preview
+        ['productTitle', 'productDescription', 'productPrice', 'productComparePrice', 'productType', 'productTags', 'productImage'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', updatePreview);
+            }
+        });
+
+        // Image Upload Functionality
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const imageFileInput = document.getElementById('imageFileInput');
+        const browseBtn = document.getElementById('browseBtn');
+        const pasteBtn = document.getElementById('pasteBtn');
+        const addMoreImages = document.getElementById('addMoreImages');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const imagePreviewsContainer = document.getElementById('imagePreviewsContainer');
+        const imagePreviews = document.getElementById('imagePreviews');
+        const productImageInput = document.getElementById('productImage');
+
+        let uploadedImages = [];
+
+        // Detect Mac and update keyboard shortcut text
+        const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.userAgent.toUpperCase().indexOf('MAC') >= 0;
+        const pasteShortcut = document.getElementById('pasteShortcut');
+        if (pasteShortcut && isMac) {
+            pasteShortcut.textContent = '⌘+V';
+        }
+
+        // Image Enhancement System
+        const imageEnhancementSection = document.getElementById('imageEnhancementSection');
+        const backgroundRemovalBtn = document.getElementById('backgroundRemovalBtn');
+        const superResolutionBtn = document.getElementById('superResolutionBtn');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const clearEnhancementsBtn = document.getElementById('clearEnhancementsBtn');
+        const selectedImageCount = document.getElementById('selectedImageCount');
+
+        let selectedImages = new Set(); // Track selected image indices
+
+        // Update selected count display
+        function updateSelectedCount() {
+            selectedImageCount.textContent = selectedImages.size;
+        }
+
+        // Select/Deselect image
+        window.toggleImageSelection = function(index) {
+            if (selectedImages.has(index)) {
+                selectedImages.delete(index);
+            } else {
+                selectedImages.add(index);
+            }
+            updateSelectedCount();
+            renderImagePreviews();
+        };
+
+        // Select all images
+        selectAllBtn.addEventListener('click', function() {
+            selectedImages.clear();
+            for (let i = 0; i < uploadedImages.length; i++) {
+                selectedImages.add(i);
+            }
+            updateSelectedCount();
+            renderImagePreviews();
+            showNotification(`Selected all ${uploadedImages.length} images`);
+        });
+
+        // Apply background removal to selected images
+        backgroundRemovalBtn.addEventListener('click', function() {
+            if (selectedImages.size === 0) {
+                showNotification('Please select images first');
+                return;
+            }
+
+            selectedImages.forEach(index => {
+                if (!uploadedImages[index].enhancements) {
+                    uploadedImages[index].enhancements = {};
+                }
+                uploadedImages[index].enhancements.backgroundRemoval = true;
+            });
+
+            showNotification(`Background removal applied to ${selectedImages.size} image(s) ✓`);
+            selectedImages.clear();
+            updateSelectedCount();
+            renderImagePreviews();
+        });
+
+        // Apply super resolution to selected images
+        superResolutionBtn.addEventListener('click', function() {
+            if (selectedImages.size === 0) {
+                showNotification('Please select images first');
+                return;
+            }
+
+            selectedImages.forEach(index => {
+                if (!uploadedImages[index].enhancements) {
+                    uploadedImages[index].enhancements = {};
+                }
+                uploadedImages[index].enhancements.superResolution = true;
+            });
+
+            showNotification(`AI upscaling applied to ${selectedImages.size} image(s) ✓`);
+            selectedImages.clear();
+            updateSelectedCount();
+            renderImagePreviews();
+        });
+
+        // Clear all enhancements
+        clearEnhancementsBtn.addEventListener('click', function() {
+            uploadedImages.forEach(img => {
+                img.enhancements = {};
+            });
+            selectedImages.clear();
+            updateSelectedCount();
+            renderImagePreviews();
+            showNotification('All enhancements cleared');
+        });
+
+        // Browse button click
+        browseBtn.addEventListener('click', () => {
+            imageFileInput.click();
+        });
+
+        // Add more images button
+        addMoreImages.addEventListener('click', () => {
+            imageFileInput.click();
+        });
+
+        // File input change
+        imageFileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Drag & Drop
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = 'var(--primary-color)';
+            imageUploadArea.style.background = 'rgba(99, 102, 241, 0.05)';
+        });
+
+        imageUploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = 'var(--border-color)';
+            imageUploadArea.style.background = 'var(--background)';
+        });
+
+        imageUploadArea.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = 'var(--border-color)';
+            imageUploadArea.style.background = 'var(--background)';
+
+            // Check if files were dropped
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                handleFiles(e.dataTransfer.files);
+                return;
+            }
+
+            // Try to get image URL from different data types
+            let imageUrl = null;
+
+            // 1. Check for HTML (when dragging img element from websites)
+            const html = e.dataTransfer.getData('text/html');
+            if (html) {
+                const imgMatch = html.match(/<img[^>]+src="([^">]+)"/i) || html.match(/<img[^>]+src='([^'>]+)'/i);
+                if (imgMatch) {
+                    imageUrl = imgMatch[1];
+                }
+            }
+
+            // 2. Check for direct image URL
+            if (!imageUrl) {
+                imageUrl = e.dataTransfer.getData('text/uri-list') || e.dataTransfer.getData('text/plain');
+            }
+
+            // 3. Process the image URL if found
+            if (imageUrl) {
+                // Clean up the URL (remove line breaks, etc.)
+                imageUrl = imageUrl.split('\n')[0].trim();
+
+                if (isImageUrl(imageUrl)) {
+                    showNotification('Loading image from URL...');
+                    await handleImageUrl(imageUrl);
+                } else {
+                    showNotification('Please drag an image, not a text link');
+                }
+            } else {
+                const pasteInstructions = isMac ? '⌘+V' : 'Ctrl+V';
+                showNotification(`Could not detect image. Try right-click > Copy Image, then press ${pasteInstructions}`);
+            }
+        });
+
+        // Click to upload
+        imageUploadArea.addEventListener('click', (e) => {
+            if (e.target === imageUploadArea || e.target.closest('#uploadPlaceholder')) {
+                imageFileInput.click();
+            }
+        });
+
+        // Paste from clipboard
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const items = await navigator.clipboard.read();
+                for (const item of items) {
+                    for (const type of item.types) {
+                        if (type.startsWith('image/')) {
+                            const blob = await item.getType(type);
+                            const file = new File([blob], `pasted-image-${Date.now()}.png`, { type });
+                            handleFiles([file]);
+                            showNotification('Image pasted from clipboard! ✓');
+                            return;
+                        }
+                    }
+                }
+                showNotification('No image found in clipboard');
+            } catch (error) {
+                console.error('Paste error:', error);
+                const shortcut = isMac ? '⌘+V' : 'Ctrl+V';
+                showNotification(`Unable to paste. Try ${shortcut} instead.`);
+            }
+        });
+
+        // Global paste event
+        document.addEventListener('paste', (e) => {
+            // Don't handle paste if user is typing in a text field
+            const activeElement = document.activeElement;
+            if (activeElement && (
+                activeElement.tagName === 'INPUT' && activeElement.type === 'text' ||
+                activeElement.tagName === 'INPUT' && activeElement.type === 'url' ||
+                activeElement.tagName === 'INPUT' && activeElement.type === 'number' ||
+                activeElement.tagName === 'TEXTAREA'
+            )) {
+                // Let the text input handle the paste
+                return;
+            }
+
+            // Handle image paste
+            const items = e.clipboardData.items;
+            for (let item of items) {
+                if (item.type.startsWith('image/')) {
+                    const blob = item.getAsFile();
+                    handleFiles([blob]);
+                    showNotification('Image pasted! ✓');
+                    e.preventDefault();
+                    break;
+                }
+            }
+        });
+
+        // Check if URL is an image
+        function isImageUrl(url) {
+            if (!url || typeof url !== 'string') return false;
+
+            try {
+                const urlLower = url.toLowerCase();
+
+                // Check file extension
+                if (/\.(jpg|jpeg|png|gif|webp|bmp|svg|jfif|pjpeg|pjp|ico|tif|tiff)(\?|$)/i.test(url)) {
+                    return true;
+                }
+
+                // Check common image URL patterns
+                if (urlLower.includes('/image') ||
+                    urlLower.includes('/img') ||
+                    urlLower.includes('/photo') ||
+                    urlLower.includes('/picture') ||
+                    urlLower.includes('images.') ||
+                    urlLower.includes('cdn') ||
+                    urlLower.includes('media') ||
+                    urlLower.includes('pinimg.com') || // Pinterest CDN
+                    urlLower.includes('unsplash.com') ||
+                    urlLower.includes('pexels.com')) {
+                    return true;
+                }
+
+                return false;
+            } catch {
+                return false;
+            }
+        }
+
+        // Handle image URL (from drag and drop from websites)
+        async function handleImageUrl(url) {
+            try {
+                // Use CORS proxy to fetch image
+                const response = await fetch(url, {
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch image');
+                }
+
+                const blob = await response.blob();
+
+                // Check if it's actually an image
+                if (!blob.type.startsWith('image/')) {
+                    showNotification('The URL does not point to an image');
+                    return;
+                }
+
+                // Create a file from blob
+                const fileName = url.split('/').pop().split('?')[0] || `image-${Date.now()}.jpg`;
+                const file = new File([blob], fileName, { type: blob.type });
+
+                handleFiles([file]);
+                showNotification('Image loaded from URL!');
+            } catch (error) {
+                console.error('Error loading image from URL:', error);
+                // If CORS fails, just add the URL directly
+                addImageFromUrl(url);
+            }
+        }
+
+        // Add image directly from URL (when CORS blocks fetch)
+        function addImageFromUrl(url) {
+            const imageData = {
+                file: null,
+                url: url,
+                name: url.split('/').pop().split('?')[0] || 'image',
+                enhancements: {} // Initialize empty enhancements
+            };
+            uploadedImages.push(imageData);
+            renderImagePreviews();
+            updateProductImageField();
+            showNotification('Image added from URL!');
+        }
+
+        // Handle file upload
+        function handleFiles(files) {
+            if (!files || files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    showNotification(`${file.name} is not an image file`);
+                    return;
+                }
+
+                // Validate file size (10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification(`${file.name} is too large (max 10MB)`);
+                    return;
+                }
+
+                // Create image preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const imageData = {
+                        file: file,
+                        url: e.target.result,
+                        name: file.name,
+                        enhancements: {} // Initialize empty enhancements
+                    };
+                    uploadedImages.push(imageData);
+                    renderImagePreviews();
+                    updateProductImageField();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Render image previews
+        function renderImagePreviews() {
+            if (uploadedImages.length === 0) {
+                uploadPlaceholder.style.display = 'block';
+                imagePreviewsContainer.style.display = 'none';
+                imageEnhancementSection.style.display = 'none';
+                return;
+            }
+
+            uploadPlaceholder.style.display = 'none';
+            imagePreviewsContainer.style.display = 'block';
+            imageEnhancementSection.style.display = 'block';
+
+            imagePreviews.innerHTML = uploadedImages.map((img, index) => {
+                const isSelected = selectedImages.has(index);
+                const hasEnhancements = img.enhancements && (img.enhancements.backgroundRemoval || img.enhancements.superResolution);
+
+                // Build enhancement badges for this specific image
+                let badges = '';
+                if (hasEnhancements) {
+                    badges = '<div style="position: absolute; top: 0.25rem; left: 0.25rem; display: flex; flex-direction: column; gap: 0.25rem;">';
+                    if (img.enhancements.backgroundRemoval) {
+                        badges += '<div style="background: rgba(16, 185, 129, 0.95); color: white; padding: 0.2rem 0.45rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"><span>🎨</span>BG Remove</div>';
+                    }
+                    if (img.enhancements.superResolution) {
+                        badges += '<div style="background: rgba(99, 102, 241, 0.95); color: white; padding: 0.2rem 0.45rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"><span>✨</span>AI Upscale</div>';
+                    }
+                    badges += '</div>';
+                }
+
+                // Selection overlay
+                const selectionOverlay = isSelected ? `
+                    <div style="position: absolute; inset: 0; background: rgba(99, 102, 241, 0.3); border: 3px solid var(--primary-color); pointer-events: none;"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--primary-color); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">✓</div>
+                ` : '';
+
+                return `
+                    <div onclick="toggleImageSelection(${index})" style="position: relative; border-radius: 8px; overflow: hidden; border: 2px solid ${isSelected ? 'var(--primary-color)' : 'var(--border-color)'}; aspect-ratio: 1; cursor: pointer; transition: all 0.2s; ${isSelected ? 'transform: scale(0.95);' : ''}" class="image-preview-item">
+                        <img src="${img.url}" alt="${img.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                        ${selectionOverlay}
+                        ${badges}
+                        <button type="button" onclick="event.stopPropagation(); removeImage(${index})" style="position: absolute; top: 0.25rem; right: 0.25rem; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: bold; transition: all 0.2s; z-index: 10;">
+                            ×
+                        </button>
+                        ${index === 0 ? '<div style="position: absolute; bottom: 0.25rem; left: 0.25rem; background: var(--primary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">Primary</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Remove image
+        window.removeImage = function(index) {
+            uploadedImages.splice(index, 1);
+            renderImagePreviews();
+            updateProductImageField();
+            showNotification('Image removed');
+        };
+
+        // Update the product image URL field with the first image
+        function updateProductImageField() {
+            if (uploadedImages.length > 0) {
+                productImageInput.value = uploadedImages[0].url;
+                // Trigger preview update
+                updatePreview();
+            } else {
+                productImageInput.value = '';
+                updatePreview();
+            }
+        }
+
+        // Hover effects for buttons
+        browseBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px)';
+            this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+        });
+
+        browseBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+
+        pasteBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px)';
+            this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+        });
+
+        pasteBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+
+        addMoreImages.addEventListener('mouseenter', function() {
+            this.style.background = 'rgba(99, 102, 241, 0.1)';
+        });
+
+        addMoreImages.addEventListener('mouseleave', function() {
+            this.style.background = 'var(--surface)';
+        });
+
+        // Basic form handler - will be enhanced later
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoader = submitBtn.querySelector('.btn-loader');
+
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.style.visibility = 'hidden';
+            btnLoader.style.display = 'inline-block';
+
+            try {
+                // Get form data
+                const formData = new FormData(e.target);
+                const productData = {
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    price: formData.get('price'),
+                    comparePrice: formData.get('comparePrice'),
+                    type: formData.get('type'),
+                    vendor: formData.get('vendor'),
+                    sku: formData.get('sku'),
+                    inventory: formData.get('inventory'),
+                    tags: formData.get('tags'),
+                    imageUrl: formData.get('imageUrl'),
+                    active: formData.get('active') === 'on'
+                };
+
+                // Add images with their individual enhancements
+                productData.images = uploadedImages.map(img => ({
+                    url: img.url,
+                    name: img.name,
+                    enhancements: img.enhancements || {}
+                }));
+
+                console.log('Product data to submit:', productData);
+                console.log('Number of images:', uploadedImages.length);
+
+                // Count images with enhancements
+                let bgRemovalCount = 0;
+                let upscaleCount = 0;
+                uploadedImages.forEach(img => {
+                    if (img.enhancements.backgroundRemoval) bgRemovalCount++;
+                    if (img.enhancements.superResolution) upscaleCount++;
+                });
+
+                console.log(`Images with background removal: ${bgRemovalCount}`);
+                console.log(`Images with AI upscaling: ${upscaleCount}`);
+
+                // Show processing message if enhancements are enabled
+                if (bgRemovalCount > 0 || upscaleCount > 0) {
+                    let messages = [];
+                    if (bgRemovalCount > 0) messages.push(`${bgRemovalCount} image(s) with BG removal`);
+                    if (upscaleCount > 0) messages.push(`${upscaleCount} image(s) with AI upscaling`);
+                    showNotification('Processing: ' + messages.join(', '));
+                }
+
+                // TODO: Add Shopify Admin API integration here
+                // TODO: Integrate with background removal API (e.g., remove.bg)
+                // TODO: Integrate with super resolution API (e.g., Replicate, DeepAI)
+                // For now, just show success message
+                showNotification('Product form ready! API integration coming next.');
+
+                // Reset form
+                e.target.reset();
+
+                // Reset uploaded images
+                uploadedImages = [];
+                selectedImages.clear();
+                updateSelectedCount();
+                renderImagePreviews();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error processing form. Check console.');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.style.visibility = 'visible';
+                btnLoader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
