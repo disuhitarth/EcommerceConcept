@@ -100,6 +100,22 @@
         #previewThumbnails > div::-webkit-scrollbar-thumb:hover {
             background: var(--text-secondary);
         }
+
+        /* AI Generation Button Hover Effects */
+        #generateSingleBtn:hover, #generateVariationsBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        #generateSingleBtn:active, #generateVariationsBtn:active {
+            transform: translateY(0);
+        }
+
+        #generateSingleBtn:disabled, #generateVariationsBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
     </style>
 </head>
 <body>
@@ -283,10 +299,56 @@
                     <div id="formView">
                     <!-- Add Product Form -->
             <form id="addProductForm" class="auth-form">
+                <!-- AI Image Generation Section -->
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label style="display: block; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">
+                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            ✨ AI Image Generation
+                        </span>
+                    </label>
+
+                    <div style="border: 2px solid var(--border-color); border-radius: 12px; padding: 1.5rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);">
+                        <!-- AI Prompt Input -->
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+                                Describe your product image:
+                            </label>
+                            <textarea
+                                id="aiPromptInput"
+                                placeholder="Example: Blue cotton hoodie with 'Lovable' logo on chest, studio lighting, white background"
+                                style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background); color: var(--text-primary); font-size: 0.9rem; font-family: inherit; resize: vertical; min-height: 80px;"
+                            ></textarea>
+                        </div>
+
+                        <!-- AI Generation Buttons -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <button type="button" id="generateSingleBtn" style="padding: 0.75rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;">
+                                <span>✨ Generate Image</span>
+                            </button>
+                            <button type="button" id="generateVariationsBtn" style="padding: 0.75rem 1rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;">
+                                <span>🎨 Generate 3 Variations</span>
+                            </button>
+                        </div>
+
+                        <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(99, 102, 241, 0.1); border-radius: 6px;">
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">
+                                <strong style="color: var(--primary-color);">💡 Tip:</strong> Be specific about colors, style, background, and lighting for best results. Each image costs about $0.04.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                    <span style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600;">OR</span>
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                </div>
+
                 <!-- Image Upload Section -->
                 <div class="form-group" style="margin-bottom: 2rem;">
                     <label style="display: block; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">
-                        Product Images
+                        Upload Product Images
                     </label>
 
                     <!-- Upload Area -->
@@ -395,6 +457,34 @@
                             </button>
                         </div>
 
+                        <!-- AI Image Editing -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--background); border: 1px solid var(--border-color); border-radius: 8px; transition: all 0.2s;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2">
+                                        <path d="M12 20h9"/>
+                                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                                    </svg>
+                                    <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary);">
+                                        AI Image Editor
+                                    </h4>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0 0 0.5rem 1.65rem;">
+                                    Edit selected images with natural language instructions
+                                </p>
+                                <div style="padding-left: 1.65rem;">
+                                    <textarea
+                                        id="aiEditPrompt"
+                                        placeholder="Example: Change background to pure white, add soft shadows, improve lighting"
+                                        style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--background); color: var(--text-primary); font-size: 0.85rem; font-family: inherit; resize: vertical; min-height: 60px; margin-bottom: 0.5rem;"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <button type="button" id="aiEditBtn" class="enhancement-btn" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; margin-left: 1rem; white-space: nowrap;">
+                                ✨ Edit with AI
+                            </button>
+                        </div>
+
                         <!-- Quick Actions -->
                         <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
                             <button type="button" id="selectAllBtn" style="padding: 0.4rem 0.75rem; background: var(--surface); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">
@@ -407,13 +497,35 @@
                     </div>
 
                     <small class="form-hint" style="display: block; margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem;">
-                        💡 Select images by clicking them, then apply enhancements
+                        💡 Select images by clicking them, then apply enhancements or AI editing
                     </small>
+                </div>
+
+                <!-- AI Auto-fill Section -->
+                <div style="margin: 1.5rem 0; padding: 1rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border: 1px solid var(--border-color); border-radius: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.25rem 0;">
+                                ✨ AI Content Assistant
+                            </h3>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">
+                                <span id="autoFillHint">Analyze images and auto-fill product details, or optimize existing text</span>
+                            </p>
+                        </div>
+                        <button type="button" id="autoFillBtn" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; white-space: nowrap;">
+                            🤖 Auto-fill from Images
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Product Name -->
                 <div class="form-group">
-                    <label for="productTitle">Product Name *</label>
+                    <label for="productTitle" style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Product Name *</span>
+                        <button type="button" class="optimize-btn" data-field="productTitle" data-type="name" style="padding: 0.25rem 0.75rem; background: rgba(102, 126, 234, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color); border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
+                            ✨ Optimize
+                        </button>
+                    </label>
                     <input
                         type="text"
                         id="productTitle"
@@ -426,7 +538,12 @@
 
                 <!-- Product Description -->
                 <div class="form-group">
-                    <label for="productDescription">Description *</label>
+                    <label for="productDescription" style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Description *</span>
+                        <button type="button" class="optimize-btn" data-field="productDescription" data-type="description" style="padding: 0.25rem 0.75rem; background: rgba(102, 126, 234, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color); border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
+                            ✨ Optimize
+                        </button>
+                    </label>
                     <textarea
                         id="productDescription"
                         name="description"
@@ -741,6 +858,8 @@
     <script src="config/shopify.js"></script>
     <script src="services/shopify-api.js"></script>
     <script src="services/auth-service.js"></script>
+    <script src="config/gemini.js"></script>
+    <script src="services/gemini-service.js"></script>
     <script src="script.js"></script>
 
     <!-- Pinterest Widget Script -->
@@ -1301,6 +1420,115 @@
             }
         });
 
+        // AI Image Generation Functionality
+        const aiPromptInput = document.getElementById('aiPromptInput');
+        const generateSingleBtn = document.getElementById('generateSingleBtn');
+        const generateVariationsBtn = document.getElementById('generateVariationsBtn');
+
+        // Generate single image with AI
+        generateSingleBtn.addEventListener('click', async function() {
+            const prompt = aiPromptInput.value.trim();
+
+            if (!prompt) {
+                showNotification('Please describe the image you want to generate');
+                return;
+            }
+
+            if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                return;
+            }
+
+            // Disable button and show loading
+            generateSingleBtn.disabled = true;
+            const originalText = generateSingleBtn.innerHTML;
+            generateSingleBtn.innerHTML = '<span>⏳ Generating...</span>';
+
+            try {
+                console.log('Generating image with prompt:', prompt);
+                showNotification('Generating image with AI... (this may take 10-30 seconds)');
+
+                const imageBase64 = await window.GeminiService.generateProductImage(prompt);
+
+                // Add to uploaded images
+                const imageData = {
+                    file: null,
+                    url: imageBase64,
+                    name: `ai-generated-${Date.now()}.png`,
+                    enhancements: {}
+                };
+                uploadedImages.push(imageData);
+                renderImagePreviews();
+                updateProductImageField();
+
+                showNotification('AI image generated successfully! ✨');
+                aiPromptInput.value = ''; // Clear prompt
+            } catch (error) {
+                console.error('AI Generation Error:', error);
+                showNotification(`Failed to generate image: ${error.message}`);
+            } finally {
+                generateSingleBtn.disabled = false;
+                generateSingleBtn.innerHTML = originalText;
+            }
+        });
+
+        // Generate multiple variations
+        generateVariationsBtn.addEventListener('click', async function() {
+            const prompt = aiPromptInput.value.trim();
+
+            if (!prompt) {
+                showNotification('Please describe the image you want to generate');
+                return;
+            }
+
+            if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                return;
+            }
+
+            // Disable button and show loading
+            generateVariationsBtn.disabled = true;
+            const originalText = generateVariationsBtn.innerHTML;
+            generateVariationsBtn.innerHTML = '<span>⏳ Generating 3 images...</span>';
+
+            try {
+                console.log('Generating variations with prompt:', prompt);
+                showNotification('Generating 3 variations... (this may take 30-60 seconds)');
+
+                const variations = await window.GeminiService.generateVariations(prompt, 3);
+
+                // Add all variations to uploaded images
+                variations.forEach((imageBase64, index) => {
+                    const imageData = {
+                        file: null,
+                        url: imageBase64,
+                        name: `ai-variation-${index + 1}-${Date.now()}.png`,
+                        enhancements: {}
+                    };
+                    uploadedImages.push(imageData);
+                });
+
+                renderImagePreviews();
+                updateProductImageField();
+
+                showNotification(`${variations.length} variations generated successfully! 🎨`);
+                aiPromptInput.value = ''; // Clear prompt
+            } catch (error) {
+                console.error('AI Generation Error:', error);
+                showNotification(`Failed to generate variations: ${error.message}`);
+            } finally {
+                generateVariationsBtn.disabled = false;
+                generateVariationsBtn.innerHTML = originalText;
+            }
+        });
+
+        // Enter key to generate
+        aiPromptInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                generateSingleBtn.click();
+            }
+        });
+
         // Image Upload Functionality
         const imageUploadArea = document.getElementById('imageUploadArea');
         const imageFileInput = document.getElementById('imageFileInput');
@@ -1344,8 +1572,24 @@
                 selectedImages.add(index);
             }
             updateSelectedCount();
+            updateAutoFillHint();
             renderImagePreviews();
         };
+
+        // Update auto-fill hint based on selection
+        function updateAutoFillHint() {
+            const hintElement = document.getElementById('autoFillHint');
+            if (!hintElement) return;
+
+            if (uploadedImages.length === 0) {
+                hintElement.innerHTML = 'Analyze images and auto-fill product details, or optimize existing text';
+            } else if (selectedImages.size > 0) {
+                const firstSelected = Math.min(...Array.from(selectedImages));
+                hintElement.innerHTML = `Will analyze selected image #${firstSelected + 1} • Click image to select different one`;
+            } else {
+                hintElement.innerHTML = `Will analyze primary image (first) • Click any image to select a different one`;
+            }
+        }
 
         // Select all images
         selectAllBtn.addEventListener('click', function() {
@@ -1354,48 +1598,153 @@
                 selectedImages.add(i);
             }
             updateSelectedCount();
+            updateAutoFillHint();
             renderImagePreviews();
             showNotification(`Selected all ${uploadedImages.length} images`);
         });
 
         // Apply background removal to selected images
-        backgroundRemovalBtn.addEventListener('click', function() {
+        backgroundRemovalBtn.addEventListener('click', async function() {
             if (selectedImages.size === 0) {
                 showNotification('Please select images first');
                 return;
             }
 
-            selectedImages.forEach(index => {
-                if (!uploadedImages[index].enhancements) {
-                    uploadedImages[index].enhancements = {};
-                }
-                uploadedImages[index].enhancements.backgroundRemoval = true;
-            });
+            if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                return;
+            }
 
-            showNotification(`Background removal applied to ${selectedImages.size} image(s) ✓`);
+            // Disable button and show loading
+            backgroundRemovalBtn.disabled = true;
+            const originalText = backgroundRemovalBtn.innerHTML;
+            backgroundRemovalBtn.innerHTML = '<span>⏳ Processing...</span>';
+
+            const selectedCount = selectedImages.size;
+            let processedCount = 0;
+            let errorCount = 0;
+
+            showNotification(`Removing background from ${selectedCount} image(s)... (this may take 10-30s per image)`);
+
+            // Process each selected image
+            for (const index of selectedImages) {
+                try {
+                    console.log(`Removing background from image ${index + 1}`);
+
+                    const originalImage = uploadedImages[index];
+                    const processedImageBase64 = await window.GeminiService.enhanceImage(
+                        originalImage.url,
+                        'Remove the background completely, leaving only the main subject on a transparent or pure white background. Keep the subject exactly as it is without any modifications.'
+                    );
+
+                    // Update the image with processed version
+                    uploadedImages[index] = {
+                        ...originalImage,
+                        url: processedImageBase64,
+                        name: `bg-removed-${originalImage.name}`,
+                        originalUrl: originalImage.originalUrl || originalImage.url,
+                        enhancements: {
+                            ...originalImage.enhancements,
+                            backgroundRemoval: true
+                        }
+                    };
+
+                    processedCount++;
+                    showNotification(`Processed ${processedCount} of ${selectedCount} images...`);
+                } catch (error) {
+                    console.error(`Failed to remove background from image ${index + 1}:`, error);
+                    errorCount++;
+                }
+            }
+
+            // Clear selection and update UI
             selectedImages.clear();
             updateSelectedCount();
+            updateAutoFillHint();
             renderImagePreviews();
+            updateProductImageField();
+
+            // Show final result
+            if (errorCount === 0) {
+                showNotification(`✨ Successfully removed background from ${processedCount} image(s)!`);
+            } else {
+                showNotification(`Processed ${processedCount} image(s), ${errorCount} failed`);
+            }
+
+            backgroundRemovalBtn.disabled = false;
+            backgroundRemovalBtn.innerHTML = originalText;
         });
 
         // Apply super resolution to selected images
-        superResolutionBtn.addEventListener('click', function() {
+        superResolutionBtn.addEventListener('click', async function() {
             if (selectedImages.size === 0) {
                 showNotification('Please select images first');
                 return;
             }
 
-            selectedImages.forEach(index => {
-                if (!uploadedImages[index].enhancements) {
-                    uploadedImages[index].enhancements = {};
-                }
-                uploadedImages[index].enhancements.superResolution = true;
-            });
+            if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                return;
+            }
 
-            showNotification(`AI upscaling applied to ${selectedImages.size} image(s) ✓`);
+            // Disable button and show loading
+            superResolutionBtn.disabled = true;
+            const originalText = superResolutionBtn.innerHTML;
+            superResolutionBtn.innerHTML = '<span>⏳ Processing...</span>';
+
+            const selectedCount = selectedImages.size;
+            let processedCount = 0;
+            let errorCount = 0;
+
+            showNotification(`AI upscaling ${selectedCount} image(s)... (this may take 10-30s per image)`);
+
+            // Process each selected image
+            for (const index of selectedImages) {
+                try {
+                    console.log(`AI upscaling image ${index + 1}`);
+
+                    const originalImage = uploadedImages[index];
+                    const processedImageBase64 = await window.GeminiService.enhanceImage(
+                        originalImage.url,
+                        'Enhance this image to higher quality and resolution. Improve sharpness, clarity, and detail. Make it look more professional and high-definition. Keep all content exactly the same, only improve the quality.'
+                    );
+
+                    // Update the image with processed version
+                    uploadedImages[index] = {
+                        ...originalImage,
+                        url: processedImageBase64,
+                        name: `upscaled-${originalImage.name}`,
+                        originalUrl: originalImage.originalUrl || originalImage.url,
+                        enhancements: {
+                            ...originalImage.enhancements,
+                            superResolution: true
+                        }
+                    };
+
+                    processedCount++;
+                    showNotification(`Processed ${processedCount} of ${selectedCount} images...`);
+                } catch (error) {
+                    console.error(`Failed to upscale image ${index + 1}:`, error);
+                    errorCount++;
+                }
+            }
+
+            // Clear selection and update UI
             selectedImages.clear();
             updateSelectedCount();
+            updateAutoFillHint();
             renderImagePreviews();
+            updateProductImageField();
+
+            // Show final result
+            if (errorCount === 0) {
+                showNotification(`✨ Successfully upscaled ${processedCount} image(s)!`);
+            } else {
+                showNotification(`Processed ${processedCount} image(s), ${errorCount} failed`);
+            }
+
+            superResolutionBtn.disabled = false;
+            superResolutionBtn.innerHTML = originalText;
         });
 
         // Clear all enhancements
@@ -1407,6 +1756,234 @@
             updateSelectedCount();
             renderImagePreviews();
             showNotification('All enhancements cleared');
+        });
+
+        // AI Image Editing
+        const aiEditPrompt = document.getElementById('aiEditPrompt');
+        const aiEditBtn = document.getElementById('aiEditBtn');
+
+        aiEditBtn.addEventListener('click', async function() {
+            const prompt = aiEditPrompt.value.trim();
+
+            if (selectedImages.size === 0) {
+                showNotification('Please select images to edit first');
+                return;
+            }
+
+            if (!prompt) {
+                showNotification('Please describe what edits you want to make');
+                return;
+            }
+
+            if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                return;
+            }
+
+            // Disable button and show loading
+            aiEditBtn.disabled = true;
+            const originalText = aiEditBtn.innerHTML;
+            aiEditBtn.innerHTML = '<span>⏳ Editing...</span>';
+
+            const selectedCount = selectedImages.size;
+            let editedCount = 0;
+            let errorCount = 0;
+
+            showNotification(`Editing ${selectedCount} image(s) with AI... (this may take 10-30s per image)`);
+
+            // Process each selected image
+            for (const index of selectedImages) {
+                try {
+                    console.log(`Editing image ${index + 1} with prompt:`, prompt);
+
+                    const originalImage = uploadedImages[index];
+                    const editedImageBase64 = await window.GeminiService.enhanceImage(
+                        originalImage.url,
+                        prompt
+                    );
+
+                    // Replace the original image with the edited version
+                    uploadedImages[index] = {
+                        ...originalImage,
+                        url: editedImageBase64,
+                        name: `edited-${originalImage.name}`,
+                        originalUrl: originalImage.url // Keep backup of original
+                    };
+
+                    editedCount++;
+                    showNotification(`Edited ${editedCount} of ${selectedCount} images...`);
+                } catch (error) {
+                    console.error(`Failed to edit image ${index + 1}:`, error);
+                    errorCount++;
+                }
+            }
+
+            // Clear selection and update UI
+            selectedImages.clear();
+            updateSelectedCount();
+            updateAutoFillHint();
+            renderImagePreviews();
+            updateProductImageField();
+
+            // Show final result
+            if (errorCount === 0) {
+                showNotification(`✨ Successfully edited ${editedCount} image(s)!`);
+            } else {
+                showNotification(`Edited ${editedCount} image(s), ${errorCount} failed`);
+            }
+
+            aiEditPrompt.value = ''; // Clear prompt
+            aiEditBtn.disabled = false;
+            aiEditBtn.innerHTML = originalText;
+        });
+
+        // AI Auto-fill from Images
+        const autoFillBtn = document.getElementById('autoFillBtn');
+        const productTitleInput = document.getElementById('productTitle');
+        const productDescriptionInput = document.getElementById('productDescription');
+        const productPriceInput = document.getElementById('productPrice');
+        const productTypeInput = document.getElementById('productType');
+
+        autoFillBtn.addEventListener('click', async function() {
+            if (uploadedImages.length === 0) {
+                showNotification('Please upload at least one product image first');
+                return;
+            }
+
+            if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                return;
+            }
+
+            // Disable button and show loading
+            autoFillBtn.disabled = true;
+            const originalText = autoFillBtn.innerHTML;
+            autoFillBtn.innerHTML = '<span>⏳ Analyzing...</span>';
+
+            try {
+                // Smart image selection:
+                // 1. If images are selected, use the first selected image
+                // 2. If no selection, use the first uploaded image (primary)
+                let imageToAnalyze;
+                let imageIndex;
+
+                if (selectedImages.size > 0) {
+                    // Use first selected image
+                    imageIndex = Math.min(...Array.from(selectedImages));
+                    imageToAnalyze = uploadedImages[imageIndex];
+                    showNotification(`Analyzing selected image #${imageIndex + 1}...`);
+                } else {
+                    // Use first/primary image
+                    imageIndex = 0;
+                    imageToAnalyze = uploadedImages[0];
+                    showNotification('Analyzing primary image...');
+                }
+
+                const firstImage = imageToAnalyze;
+
+                // Check if image is an external URL that couldn't be converted
+                if (firstImage.isExternalUrl) {
+                    showNotification('⚠️ Cannot analyze external URLs. Please upload the image file directly or use right-click > Save Image, then upload it.');
+                    autoFillBtn.disabled = false;
+                    autoFillBtn.innerHTML = originalText;
+                    return;
+                }
+
+                let imageData = firstImage.url;
+
+                // If it's still a URL (shouldn't happen often), try to convert
+                if (imageData.startsWith('http://') || imageData.startsWith('https://')) {
+                    showNotification('Converting image URL to base64...');
+                    try {
+                        imageData = await urlToBase64ViaCanvas(imageData);
+                        console.log('Successfully converted URL to base64');
+                    } catch (conversionError) {
+                        console.error('Failed to convert image URL:', conversionError);
+                        showNotification('Cannot analyze external image URL. Please download and upload the image file.');
+                        autoFillBtn.disabled = false;
+                        autoFillBtn.innerHTML = originalText;
+                        return;
+                    }
+                }
+
+                showNotification('Analyzing product images with AI...');
+                const productData = await window.GeminiService.analyzeProductImage(imageData);
+
+                // Fill in the form fields
+                if (productData.name && !productTitleInput.value) {
+                    productTitleInput.value = productData.name;
+                }
+
+                if (productData.description && !productDescriptionInput.value) {
+                    productDescriptionInput.value = productData.description;
+                }
+
+                if (productData.category && !productTypeInput.value) {
+                    productTypeInput.value = productData.category;
+                }
+
+                // Extract price from suggestedPrice (e.g., "$25-$35" -> "25")
+                if (productData.suggestedPrice && !productPriceInput.value) {
+                    const priceMatch = productData.suggestedPrice.match(/\d+/);
+                    if (priceMatch) {
+                        productPriceInput.value = priceMatch[0];
+                    }
+                }
+
+                showNotification('✨ Product details auto-filled successfully!');
+                console.log('Auto-filled product data:', productData);
+            } catch (error) {
+                console.error('Auto-fill error:', error);
+                showNotification('Failed to analyze images. Please try again.');
+            }
+
+            autoFillBtn.disabled = false;
+            autoFillBtn.innerHTML = originalText;
+        });
+
+        // Optimize Text Buttons
+        document.querySelectorAll('.optimize-btn').forEach(button => {
+            button.addEventListener('click', async function() {
+                const fieldId = this.getAttribute('data-field');
+                const fieldType = this.getAttribute('data-type');
+                const inputElement = document.getElementById(fieldId);
+
+                if (!inputElement) return;
+
+                const currentValue = inputElement.value.trim();
+
+                if (!currentValue) {
+                    showNotification('Please enter some text first to optimize');
+                    return;
+                }
+
+                if (!window.GeminiService || !window.GeminiService.isConfigured()) {
+                    showNotification('Gemini API is not configured. Please add your API key in config/gemini.js');
+                    return;
+                }
+
+                // Disable button and show loading
+                this.disabled = true;
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span>⏳</span>';
+
+                try {
+                    showNotification(`Optimizing ${fieldType}...`);
+
+                    const optimizedText = await window.GeminiService.optimizeText(currentValue, fieldType);
+
+                    // Update the input with optimized text
+                    inputElement.value = optimizedText;
+
+                    showNotification(`✨ ${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} optimized!`);
+                } catch (error) {
+                    console.error('Optimization error:', error);
+                    showNotification('Failed to optimize text. Please try again.');
+                }
+
+                this.disabled = false;
+                this.innerHTML = originalText;
+            });
         });
 
         // Browse button click
@@ -1606,17 +2183,64 @@
         }
 
         // Add image directly from URL (when CORS blocks fetch)
-        function addImageFromUrl(url) {
-            const imageData = {
-                file: null,
-                url: url,
-                name: url.split('/').pop().split('?')[0] || 'image',
-                enhancements: {} // Initialize empty enhancements
-            };
-            uploadedImages.push(imageData);
-            renderImagePreviews();
-            updateProductImageField();
-            showNotification('Image added from URL!');
+        async function addImageFromUrl(url) {
+            try {
+                // Try to convert URL to base64 using canvas
+                const base64 = await urlToBase64ViaCanvas(url);
+
+                const imageData = {
+                    file: null,
+                    url: base64,
+                    name: url.split('/').pop().split('?')[0] || 'image',
+                    enhancements: {} // Initialize empty enhancements
+                };
+                uploadedImages.push(imageData);
+                renderImagePreviews();
+                updateProductImageField();
+                showNotification('Image added from URL!');
+            } catch (error) {
+                console.error('Canvas conversion failed:', error);
+                // If canvas fails too, store as URL with a warning flag
+                const imageData = {
+                    file: null,
+                    url: url,
+                    name: url.split('/').pop().split('?')[0] || 'image',
+                    enhancements: {},
+                    isExternalUrl: true // Flag for AI features
+                };
+                uploadedImages.push(imageData);
+                renderImagePreviews();
+                updateProductImageField();
+                showNotification('⚠️ Image added but AI features may not work with external URLs');
+            }
+        }
+
+        // Convert URL to base64 using canvas (works even with some CORS restrictions)
+        function urlToBase64ViaCanvas(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous'; // Try to request CORS
+
+                img.onload = function() {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        const base64 = canvas.toDataURL('image/png');
+                        resolve(base64);
+                    } catch (error) {
+                        reject(new Error('Canvas conversion failed: ' + error.message));
+                    }
+                };
+
+                img.onerror = function() {
+                    reject(new Error('Failed to load image'));
+                };
+
+                img.src = url;
+            });
         }
 
         // Handle file upload
@@ -1659,12 +2283,14 @@
                 uploadPlaceholder.style.display = 'block';
                 imagePreviewsContainer.style.display = 'none';
                 imageEnhancementSection.style.display = 'none';
+                updateAutoFillHint();
                 return;
             }
 
             uploadPlaceholder.style.display = 'none';
             imagePreviewsContainer.style.display = 'block';
             imageEnhancementSection.style.display = 'block';
+            updateAutoFillHint();
 
             imagePreviews.innerHTML = uploadedImages.map((img, index) => {
                 const isSelected = selectedImages.has(index);

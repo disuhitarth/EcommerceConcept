@@ -1,6 +1,7 @@
-# Shopify credentials - DO NOT COMMIT
+# API credentials - DO NOT COMMIT
 .shopify-credentials.txt
 config/shopify.js
+config/gemini.js
 
 # Environment files
 .env
