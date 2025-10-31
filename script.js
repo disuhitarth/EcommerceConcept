@@ -1,5 +1,5 @@
 // Product Data
-const products = [
+let products = [
     {
         id: 1,
         name: 'AI Builder Hoodie',
@@ -117,16 +117,72 @@ const badgeClose = document.getElementById('badgeClose');
 const themeToggle = document.getElementById('themeToggle');
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     loadTheme();
     loadCart();
+
+    // Load products from Shopify if configured
+    if (window.ProductLoader) {
+        console.log('[Init] ProductLoader found, initializing...');
+        try {
+            await window.ProductLoader.init();
+            // Update global products array
+            const loadedProducts = window.ProductLoader.getProducts();
+            console.log('[Init] Products loaded:', loadedProducts.length);
+
+            if (loadedProducts && loadedProducts.length > 0) {
+                products = loadedProducts;
+                console.log(`✓ Loaded ${products.length} products from Shopify`);
+                console.log(`  First product: ${products[0]?.name}`);
+                console.log(`  Has image: ${products[0]?.image ? 'YES' : 'NO'}`);
+                console.log(`  Image URL: ${products[0]?.image || 'none'}`);
+            } else {
+                console.warn('[Init] No products loaded from Shopify, using default products');
+            }
+        } catch (error) {
+            console.error('[Init] Error loading products:', error);
+            console.warn('[Init] Using default products due to error');
+        }
+    } else {
+        console.warn('[Init] ProductLoader not found! Using default products');
+        console.log('[Init] Make sure Shopify integration scripts are loaded before script.js');
+    }
+
     renderProducts();
     setupEventListeners();
     checkBadgeVisibility();
+
+    // Force refresh button handler
+    const forceRefreshBtn = document.getElementById('forceRefreshBtn');
+    if (forceRefreshBtn) {
+        forceRefreshBtn.addEventListener('click', async () => {
+            forceRefreshBtn.disabled = true;
+            forceRefreshBtn.textContent = '⏳ Refreshing...';
+
+            try {
+                if (window.ProductLoader) {
+                    console.log('Force refreshing products from Shopify...');
+                    const refreshedProducts = await window.ProductLoader.refreshProducts();
+                    products = refreshedProducts;
+                    renderProducts();
+                    console.log('Products refreshed successfully!');
+                    showNotification('Products refreshed from Shopify!');
+                }
+            } catch (error) {
+                console.error('Error refreshing products:', error);
+                showNotification('Error refreshing products');
+            } finally {
+                forceRefreshBtn.disabled = false;
+                forceRefreshBtn.textContent = '🔄 Refresh from Shopify';
+            }
+        });
+    }
 });
 
 // Render Products
 function renderProducts(filter = 'all') {
+    if (!productsGrid) return;
+
     productsGrid.innerHTML = '';
 
     const filteredProducts = filter === 'all'
@@ -136,10 +192,16 @@ function renderProducts(filter = 'all') {
     filteredProducts.forEach(product => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
+
+        // Use image if available from Shopify, otherwise use emoji
+        const productImage = product.image || product.images?.[0]
+            ? `<img src="${product.image || product.images[0]}" alt="${product.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">`
+            : `<div class="product-image">${product.emoji || '📦'}</div>`;
+
         productCard.innerHTML = `
-            <div class="product-image">${product.emoji}</div>
+            ${productImage}
             <div class="product-info">
-                <div class="product-category">${product.category}</div>
+                <div class="product-category">${product.category || product.type}</div>
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
                 <div class="product-footer">
@@ -164,34 +226,48 @@ function renderProducts(filter = 'all') {
 // Setup Event Listeners
 function setupEventListeners() {
     // Theme toggle
-    themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
 
     // Cart toggle
-    cartBtn.addEventListener('click', openCart);
-    closeCart.addEventListener('click', closeCartSidebar);
-    cartOverlay.addEventListener('click', closeCartSidebar);
+    if (cartBtn) {
+        cartBtn.addEventListener('click', openCart);
+    }
+    if (closeCart) {
+        closeCart.addEventListener('click', closeCartSidebar);
+    }
+    if (cartOverlay) {
+        cartOverlay.addEventListener('click', closeCartSidebar);
+    }
 
     // Filter buttons
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            const category = e.target.dataset.category;
-            renderProducts(category);
+    if (filterBtns) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const category = e.target.dataset.category;
+                renderProducts(category);
+            });
         });
-    });
+    }
 
     // Mobile menu toggle
-    mobileMenuToggle.addEventListener('click', () => {
-        mobileMenuToggle.classList.toggle('active');
-        // Could expand to show mobile menu
-    });
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            // Could expand to show mobile menu
+        });
+    }
 
     // Badge close
-    badgeClose.addEventListener('click', () => {
-        lovableBadge.style.display = 'none';
-        localStorage.setItem('badgeClosed', 'true');
-    });
+    if (badgeClose && lovableBadge) {
+        badgeClose.addEventListener('click', () => {
+            lovableBadge.style.display = 'none';
+            localStorage.setItem('badgeClosed', 'true');
+        });
+    }
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -249,48 +325,70 @@ function updateQuantity(productId, change) {
 function updateCart() {
     // Update cart count
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartCount.textContent = totalItems;
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+    }
 
     // Update cart total
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    cartTotal.textContent = `$${total.toFixed(2)}`;
+    if (cartTotal) {
+        cartTotal.textContent = `$${total.toFixed(2)}`;
+    }
 
     // Render cart items
-    if (cart.length === 0) {
-        cartItems.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
-    } else {
-        cartItems.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div class="cart-item-image">${item.emoji}</div>
-                <div class="cart-item-details">
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-                    <div class="cart-item-controls">
-                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                        <span class="quantity-display">${item.quantity}</span>
-                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+    if (cartItems) {
+        if (cart.length === 0) {
+            cartItems.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+        } else {
+            cartItems.innerHTML = cart.map(item => {
+                // Safety check for item data
+                if (!item || typeof item.price !== 'number') {
+                    console.warn('[Cart] Invalid item in cart:', item);
+                    return '';
+                }
+
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-image">${item.emoji || '📦'}</div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name || 'Unknown'}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            <div class="cart-item-controls">
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span class="quantity-display">${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeFromCart(${item.id})">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
                     </div>
-                </div>
-                <button class="remove-item-btn" onclick="removeFromCart(${item.id})">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"/>
-                        <line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                </button>
-            </div>
-        `).join('');
+                `;
+            }).join('');
+        }
     }
 }
 
 function openCart() {
-    cartSidebar.classList.add('open');
-    cartOverlay.classList.add('active');
+    if (cartSidebar) {
+        cartSidebar.classList.add('open');
+    }
+    if (cartOverlay) {
+        cartOverlay.classList.add('active');
+    }
     document.body.style.overflow = 'hidden';
 }
 
 function closeCartSidebar() {
-    cartSidebar.classList.remove('open');
-    cartOverlay.classList.remove('active');
+    if (cartSidebar) {
+        cartSidebar.classList.remove('open');
+    }
+    if (cartOverlay) {
+        cartOverlay.classList.remove('active');
+    }
     document.body.style.overflow = '';
 }
 
@@ -302,8 +400,22 @@ function saveCart() {
 function loadCart() {
     const savedCart = localStorage.getItem('lovableCart');
     if (savedCart) {
-        cart = JSON.parse(savedCart);
-        updateCart();
+        try {
+            const parsedCart = JSON.parse(savedCart);
+            // Validate cart items - remove any with invalid data
+            cart = parsedCart.filter(item => {
+                return item &&
+                       typeof item.price === 'number' &&
+                       typeof item.quantity === 'number' &&
+                       item.id;
+            });
+            console.log(`[Cart] Loaded ${cart.length} items from storage`);
+            updateCart();
+        } catch (error) {
+            console.error('[Cart] Error loading cart, clearing:', error);
+            localStorage.removeItem('lovableCart');
+            cart = [];
+        }
     }
 }
 
@@ -322,9 +434,11 @@ function toggleTheme() {
 
 // Badge Visibility
 function checkBadgeVisibility() {
-    const badgeClosed = localStorage.getItem('badgeClosed');
-    if (badgeClosed === 'true' || window.self !== window.top) {
-        lovableBadge.style.display = 'none';
+    if (lovableBadge) {
+        const badgeClosed = localStorage.getItem('badgeClosed');
+        if (badgeClosed === 'true' || window.self !== window.top) {
+            lovableBadge.style.display = 'none';
+        }
     }
 }
 

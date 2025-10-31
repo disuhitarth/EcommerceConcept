@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Lovable Supply</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth-styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+                        <path d="M16 8L8 12V20L16 24L24 20V12L16 8Z" fill="white"/>
+                    </svg>
+                    <a href="index.html" class="brand-name">Lovable Supply</a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>Welcome, <span id="customerName">Guest</span>!</h1>
+                <p>Manage your account and view your orders</p>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Orders Card -->
+                <div class="dashboard-card">
+                    <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                        My Orders
+                    </h3>
+                    <p>View and track your order history</p>
+                    <div id="orderSummary" class="order-summary">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Account Info Card -->
+                <div class="dashboard-card">
+                    <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        Account Details
+                    </h3>
+                    <p>Manage your personal information</p>
+                    <div id="accountSummary" class="account-summary">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Wishlist Card -->
+                <div class="dashboard-card">
+                    <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        My Wishlist
+                    </h3>
+                    <p>Products you've saved for later</p>
+                    <a href="wishlist.html" class="btn btn-secondary">View Wishlist</a>
+                </div>
+            </div>
+
+            <!-- Admin Panel Section (if user is admin) -->
+            <div id="adminPanel" style="display: none;">
+                <div class="dashboard-header">
+                    <h2>Store Management</h2>
+                    <p>Access your Shopify admin dashboard</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Products Management -->
+                    <div class="dashboard-card">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                            Products
+                        </h3>
+                        <p>Manage your product catalog</p>
+                        <button class="btn btn-primary" onclick="openShopifyAdmin('products')">
+                            Manage Products
+                        </button>
+                    </div>
+
+                    <!-- Orders Management -->
+                    <div class="dashboard-card">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"/>
+                                <circle cx="20" cy="21" r="1"/>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                            </svg>
+                            Orders
+                        </h3>
+                        <p>Process and track customer orders</p>
+                        <button class="btn btn-primary" onclick="openShopifyAdmin('orders')">
+                            View Orders
+                        </button>
+                    </div>
+
+                    <!-- Analytics -->
+                    <div class="dashboard-card">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="20" x2="12" y2="10"/>
+                                <line x1="18" y1="20" x2="18" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="16"/>
+                            </svg>
+                            Analytics
+                        </h3>
+                        <p>View store performance and insights</p>
+                        <button class="btn btn-primary" onclick="openShopifyAdmin('analytics')">
+                            View Analytics
+                        </button>
+                    </div>
+
+                    <!-- Customers -->
+                    <div class="dashboard-card">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            Customers
+                        </h3>
+                        <p>Manage customer relationships</p>
+                        <button class="btn btn-primary" onclick="openShopifyAdmin('customers')">
+                            View Customers
+                        </button>
+                    </div>
+
+                    <!-- Full Dashboard -->
+                    <div class="dashboard-card">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                            </svg>
+                            Full Dashboard
+                        </h3>
+                        <p>Access complete Shopify admin panel</p>
+                        <button class="btn btn-primary" onclick="openShopifyAdmin('admin')">
+                            Open Shopify Admin
+                        </button>
+                    </div>
+
+                    <!-- Payment Settings -->
+                    <div class="dashboard-card">
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                            Payments
+                        </h3>
+                        <p>Configure payment methods and settings</p>
+                        <button class="btn btn-primary" onclick="openShopifyAdmin('admin')">
+                            Payment Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div class="account-info">
+                <h2>Account Actions</h2>
+                <div class="info-grid">
+                    <button class="btn btn-secondary" onclick="window.location.href='wishlist.html'" style="width: 100%;">
+                        View Wishlist
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='cart.html'" style="width: 100%;">
+                        View Cart
+                    </button>
+                    <button class="btn btn-secondary" id="logoutBtn" style="width: 100%;">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lovable Supply</h3>
+                    <p>Official merchandise for AI builders</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="cart.html">My Cart</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
+                        <li><a href="shipping.html">Returns & Exchanges</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="store-policies.html">Store Policies</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Powered by</h4>
+                    <p><a href="https://lovable.dev" target="_blank">Lovable</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lovable Supply. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <!-- Scripts -->
+    <script src="config/shopify.js"></script>
+    <script src="services/shopify-api.js"></script>
+    <script src="services/auth-service.js"></script>
+    <script src="script.js"></script>
+    <script src="account.js"></script>
+</body>
+</html>

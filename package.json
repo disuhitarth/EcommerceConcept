@@ -1,0 +1,12 @@
+{
+  "name": "lovable-supply",
+  "version": "1.0.0",
+  "description": "Lovable Supply - E-commerce store with Shopify integration",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "start": "node dev-server.js"
+  },
+  "keywords": ["ecommerce", "shopify"],
+  "author": "",
+  "license": "MIT"
+}

@@ -103,6 +103,9 @@
 
                 <!-- Sort Options -->
                 <div class="sort-container">
+                    <button id="forceRefreshBtn" style="margin-right: 1rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">
+                        🔄 Refresh from Shopify
+                    </button>
                     <label for="sortSelect">Sort by:</label>
                     <select id="sortSelect">
                         <option value="featured">Featured</option>
@@ -212,6 +215,14 @@
     <!-- Cart Overlay -->
     <div class="cart-overlay" id="cartOverlay"></div>
 
+    <!-- Shopify Integration Scripts -->
+    <script src="config/shopify.js"></script>
+    <script src="services/shopify-api.js"></script>
+    <script src="services/auth-service.js"></script>
+    <script src="services/product-loader.js"></script>
+    <script src="services/nav-auth.js"></script>
+
+    <!-- Core Scripts -->
     <script src="script.js"></script>
     <script src="ecommerce-features.js"></script>
 </body>
