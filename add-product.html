@@ -2458,20 +2458,58 @@
                     showNotification('Processing: ' + messages.join(', '));
                 }
 
-                // TODO: Add Shopify Admin API integration here
-                // TODO: Integrate with background removal API (e.g., remove.bg)
-                // TODO: Integrate with super resolution API (e.g., Replicate, DeepAI)
-                // For now, just show success message
-                showNotification('Product form ready! API integration coming next.');
+                // Check if Admin API is configured
+                if (!window.ShopifyConfig.isAdminConfigured()) {
+                    showNotification('⚠️ Shopify Admin API not configured. Please add your Admin API token to config/shopify.js', 'error');
+                    console.error('Admin API token required to create products.');
+                    console.log('Instructions: Go to Shopify Admin → Settings → Apps and sales channels → Develop apps');
+                    return;
+                }
 
-                // Reset form
-                e.target.reset();
+                // Prepare images array (get URLs from uploaded images)
+                const imageUrls = uploadedImages.map(img => img.url);
 
-                // Reset uploaded images
-                uploadedImages = [];
-                selectedImages.clear();
-                updateSelectedCount();
-                renderImagePreviews();
+                // Create product via Shopify Admin API
+                const shopifyProductData = {
+                    title: productData.title,
+                    description: productData.description,
+                    price: parseFloat(productData.price),
+                    compareAtPrice: productData.comparePrice ? parseFloat(productData.comparePrice) : null,
+                    category: productData.type,
+                    tags: productData.tags,
+                    vendor: productData.vendor,
+                    images: imageUrls,
+                    inventory: parseInt(productData.inventory) || 100
+                };
+
+                showNotification('Creating product in Shopify...', 'info');
+
+                // Call ShopifyAPI.createProduct()
+                const result = await window.ShopifyAPI.createProduct(shopifyProductData);
+
+                if (result.success) {
+                    showNotification(`✓ Product "${result.product.title}" created successfully!`, 'success');
+                    console.log('Product created:', result.product);
+                    console.log('Admin URL:', result.adminUrl);
+                    console.log('Storefront URL:', result.storefront);
+
+                    // Show success modal with links
+                    const viewProduct = confirm(`Product created successfully!\n\nView in Shopify Admin?`);
+                    if (viewProduct) {
+                        window.open(result.adminUrl, '_blank');
+                    }
+
+                    // Reset form
+                    e.target.reset();
+
+                    // Reset uploaded images
+                    uploadedImages = [];
+                    selectedImages.clear();
+                    updateSelectedCount();
+                    renderImagePreviews();
+                } else {
+                    throw new Error('Failed to create product');
+                }
 
             } catch (error) {
                 console.error('Error:', error);

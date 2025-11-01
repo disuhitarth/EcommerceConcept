@@ -379,6 +379,41 @@ Open your browser console (F12) and look for error messages.
 
 ---
 
+## Shopify Integration
+
+### ✅ Create Products in Shopify
+
+Your add-product page is now fully integrated with Shopify Admin API!
+
+**What works:**
+- Create products directly in your Shopify store
+- Upload images (including AI-generated ones) to Shopify
+- Set pricing, inventory, categories, tags
+- Products go live immediately
+- Direct link to view in Shopify Admin
+
+**Setup Required:**
+You need a Shopify Admin API token to create products. See **[SHOPIFY-ADMIN-SETUP.md](SHOPIFY-ADMIN-SETUP.md)** for detailed instructions.
+
+**Quick Setup:**
+1. Go to Shopify Admin → Settings → Apps and sales channels → Develop apps
+2. Create an app with `write_products` and `read_products` scopes
+3. Get your Admin API access token
+4. Add it to `config/shopify.js`:
+   ```javascript
+   adminAccessToken: 'shpat_your_token_here',
+   ```
+
+**Complete Workflow:**
+1. Generate or upload product images
+2. Use "Auto-fill from Images" to get AI-generated product details
+3. Optimize text for SEO with "Optimize" buttons
+4. Remove backgrounds and upscale images
+5. Click "Add Product to Shopify"
+6. Product is created and published instantly! 🎉
+
+---
+
 ## Next Steps
 
 Want to add more AI features?
