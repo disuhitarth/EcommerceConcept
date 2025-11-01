@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "SHOPIFY_DOMAIN": "@shopify_domain",
+    "SHOPIFY_ADMIN_TOKEN": "@shopify_admin_token",
+    "SHOPIFY_API_VERSION": "2024-01",
+    "NODE_ENV": "production"
+  }
+}

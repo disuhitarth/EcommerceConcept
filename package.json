@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "dev:old": "node dev-server.js"
+    "dev:old": "node dev-server.js",
+    "build": "node build-prepare.js",
+    "vercel-build": "node build-prepare.js"
   },
   "keywords": [
     "ecommerce",
