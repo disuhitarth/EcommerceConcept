@@ -19,6 +19,15 @@ const shopifyConfig = {
     apiVersion: process.env.SHOPIFY_API_VERSION || '2024-01'
 };
 
+// Load Gemini configuration from environment variables
+const geminiConfig = {
+    apiKey: process.env.GEMINI_API_KEY,
+    endpoints: {
+        generateContent: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent',
+        imageGeneration: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent'
+    }
+};
+
 // Validate configuration
 if (!shopifyConfig.domain || !shopifyConfig.adminAccessToken) {
     console.error('❌ ERROR: Missing Shopify configuration!');
@@ -27,6 +36,12 @@ if (!shopifyConfig.domain || !shopifyConfig.adminAccessToken) {
     console.error('  SHOPIFY_ADMIN_TOKEN=shpat_your_token_here');
     console.error('  SHOPIFY_API_VERSION=2024-01');
     process.exit(1);
+}
+
+// Gemini API is optional but recommended
+if (!geminiConfig.apiKey) {
+    console.warn('⚠️  WARNING: GEMINI_API_KEY not set. AI features will not work.');
+    console.warn('   Add GEMINI_API_KEY=your_key to .env file to enable AI features.');
 }
 
 // Middleware
@@ -377,6 +392,326 @@ app.get('/api/auth/me', (req, res) => {
     });
 });
 
+// ==================== Gemini AI Endpoints ====================
+
+// Generate product image from text
+app.post('/api/gemini/generate-image', async (req, res) => {
+    console.log('=== Gemini image generation request ===');
+
+    if (!geminiConfig.apiKey) {
+        return res.status(503).json({
+            success: false,
+            error: 'Gemini API is not configured on server'
+        });
+    }
+
+    try {
+        const { prompt, generationConfig, safetySettings } = req.body;
+
+        if (!prompt) {
+            return res.status(400).json({
+                success: false,
+                error: 'Prompt is required'
+            });
+        }
+
+        console.log('Generating image for prompt:', prompt);
+
+        const response = await fetch(geminiConfig.endpoints.imageGeneration, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': geminiConfig.apiKey
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: prompt }]
+                }],
+                generationConfig: generationConfig || {
+                    temperature: 0.4,
+                    topK: 32,
+                    topP: 1,
+                    maxOutputTokens: 4096
+                },
+                safetySettings: safetySettings || [
+                    { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+                    { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+                    { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+                    { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' }
+                ]
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Gemini API error:', errorData);
+            return res.status(response.status).json({
+                success: false,
+                error: errorData.error?.message || 'Gemini API error',
+                details: errorData
+            });
+        }
+
+        const data = await response.json();
+        console.log('✓ Image generated successfully');
+
+        res.json({
+            success: true,
+            data: data
+        });
+
+    } catch (error) {
+        console.error('=== Gemini Generation Error ===');
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Internal server error'
+        });
+    }
+});
+
+// Enhance/edit existing image
+app.post('/api/gemini/enhance-image', async (req, res) => {
+    console.log('=== Gemini image enhancement request ===');
+
+    if (!geminiConfig.apiKey) {
+        return res.status(503).json({
+            success: false,
+            error: 'Gemini API is not configured on server'
+        });
+    }
+
+    try {
+        const { imageBase64, instructions, generationConfig, safetySettings } = req.body;
+
+        if (!imageBase64 || !instructions) {
+            return res.status(400).json({
+                success: false,
+                error: 'Image and instructions are required'
+            });
+        }
+
+        console.log('Enhancing image with instructions:', instructions);
+
+        // Remove data URI prefix if present
+        const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
+
+        const response = await fetch(geminiConfig.endpoints.imageGeneration, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': geminiConfig.apiKey
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [
+                        {
+                            inlineData: {
+                                mimeType: 'image/png',
+                                data: base64Data
+                            }
+                        },
+                        {
+                            text: instructions
+                        }
+                    ]
+                }],
+                generationConfig: generationConfig || {
+                    temperature: 0.4,
+                    topK: 32,
+                    topP: 1,
+                    maxOutputTokens: 4096
+                },
+                safetySettings: safetySettings || [
+                    { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+                    { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+                    { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+                    { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' }
+                ]
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Gemini API error:', errorData);
+            return res.status(response.status).json({
+                success: false,
+                error: errorData.error?.message || 'Gemini API error',
+                details: errorData
+            });
+        }
+
+        const data = await response.json();
+        console.log('✓ Image enhanced successfully');
+
+        res.json({
+            success: true,
+            data: data
+        });
+
+    } catch (error) {
+        console.error('=== Gemini Enhancement Error ===');
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Internal server error'
+        });
+    }
+});
+
+// Analyze product image
+app.post('/api/gemini/analyze-image', async (req, res) => {
+    console.log('=== Gemini image analysis request ===');
+
+    if (!geminiConfig.apiKey) {
+        return res.status(503).json({
+            success: false,
+            error: 'Gemini API is not configured on server'
+        });
+    }
+
+    try {
+        const { imageBase64, prompt } = req.body;
+
+        if (!imageBase64 || !prompt) {
+            return res.status(400).json({
+                success: false,
+                error: 'Image and prompt are required'
+            });
+        }
+
+        console.log('Analyzing product image...');
+
+        // Remove data URI prefix if present
+        const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
+
+        const response = await fetch(geminiConfig.endpoints.generateContent, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': geminiConfig.apiKey
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [
+                        {
+                            inlineData: {
+                                mimeType: 'image/png',
+                                data: base64Data
+                            }
+                        },
+                        {
+                            text: prompt
+                        }
+                    ]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 40,
+                    topP: 0.95,
+                    maxOutputTokens: 1024
+                }
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Gemini API error:', errorData);
+            return res.status(response.status).json({
+                success: false,
+                error: errorData.error?.message || 'Gemini API error',
+                details: errorData
+            });
+        }
+
+        const data = await response.json();
+        console.log('✓ Image analyzed successfully');
+
+        res.json({
+            success: true,
+            data: data
+        });
+
+    } catch (error) {
+        console.error('=== Gemini Analysis Error ===');
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Internal server error'
+        });
+    }
+});
+
+// Optimize text content
+app.post('/api/gemini/optimize-text', async (req, res) => {
+    console.log('=== Gemini text optimization request ===');
+
+    if (!geminiConfig.apiKey) {
+        return res.status(503).json({
+            success: false,
+            error: 'Gemini API is not configured on server'
+        });
+    }
+
+    try {
+        const { prompt } = req.body;
+
+        if (!prompt) {
+            return res.status(400).json({
+                success: false,
+                error: 'Prompt is required'
+            });
+        }
+
+        console.log('Optimizing text...');
+
+        const response = await fetch(geminiConfig.endpoints.generateContent, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': geminiConfig.apiKey
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: prompt }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 40,
+                    topP: 0.95,
+                    maxOutputTokens: 512
+                }
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Gemini API error:', errorData);
+            return res.status(response.status).json({
+                success: false,
+                error: errorData.error?.message || 'Gemini API error',
+                details: errorData
+            });
+        }
+
+        const data = await response.json();
+        console.log('✓ Text optimized successfully');
+
+        res.json({
+            success: true,
+            data: data
+        });
+
+    } catch (error) {
+        console.error('=== Gemini Optimization Error ===');
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Internal server error'
+        });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log('╔══════════════════════════════════════════════════╗');
@@ -396,6 +731,14 @@ app.listen(PORT, () => {
     console.log(`  ✓ Demo auth enabled`);
     console.log(`  Demo user: admin@lovable.dev / admin123`);
     console.log(`  Or create new account via /signup.html`);
+    console.log('');
+    console.log('Gemini AI:');
+    if (geminiConfig.apiKey) {
+        console.log(`  ✓ Gemini API configured`);
+        console.log(`  API Key: ${geminiConfig.apiKey.substring(0, 15)}...`);
+    } else {
+        console.log(`  ⚠️  Gemini API not configured (AI features disabled)`);
+    }
     console.log('');
     console.log('Ready to create products! 🚀');
     console.log('');

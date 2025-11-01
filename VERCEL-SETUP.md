@@ -51,7 +51,13 @@ Add each of these variables:
 - **Environments:** ✅ Production, ✅ Preview, ✅ Development
 - Click **Save**
 
-#### Variable 4: NODE_ENV (Optional)
+#### Variable 4: GEMINI_API_KEY (Required for AI features)
+- **Name:** `GEMINI_API_KEY`
+- **Value:** `AIzaSy_YOUR_KEY_HERE` (Get from .env file)
+- **Environments:** ✅ Production, ✅ Preview, ✅ Development
+- Click **Save**
+
+#### Variable 5: NODE_ENV (Optional)
 - **Name:** `NODE_ENV`
 - **Value:** `production`
 - **Environments:** ✅ Production only
@@ -59,11 +65,12 @@ Add each of these variables:
 
 ### 1.3 Verify Variables Added
 
-You should now see these 4 variables in your environment variables list:
+You should now see these 5 variables in your environment variables list:
 - ✅ SHOPIFY_DOMAIN
 - ✅ SHOPIFY_ADMIN_TOKEN
 - ✅ SHOPIFY_API_VERSION
-- ✅ NODE_ENV
+- ✅ GEMINI_API_KEY
+- ✅ NODE_ENV (optional)
 
 ---
 
@@ -267,7 +274,7 @@ Before going live with real users:
 - ✅ Only production config files (`*.production.js`) committed
 - ✅ Storefront token is public (safe to commit)
 - ✅ Admin token is server-side only (environment variable)
-- ⚠️ Gemini API key is client-side (consider moving to backend)
+- ✅ Gemini API key is server-side only (environment variable)
 - ✅ HTTPS enabled (automatic with Vercel)
 - ✅ No API keys visible in browser DevTools Network tab
 
