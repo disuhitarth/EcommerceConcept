@@ -88,20 +88,42 @@ class AuthService {
      */
     async login(email, password) {
         try {
-            // Call Shopify API
-            const tokenData = await window.ShopifyAPI.customerLogin(email, password);
+            // Try backend API first (demo mode)
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-            // Store token
-            this.setToken(tokenData.accessToken, tokenData.expiresAt);
+            if (response.ok) {
+                const data = await response.json();
 
-            // Fetch and store customer data
-            const customer = await window.ShopifyAPI.getCustomer(tokenData.accessToken);
-            this.setCustomer(customer);
+                if (data.success) {
+                    // Store token and customer data
+                    this.setToken(data.token, data.expiresAt);
+                    this.setCustomer(data.user);
 
-            return { success: true, customer };
+                    console.log('✓ Logged in via backend API');
+                    return { success: true, customer: data.user };
+                }
+            }
+
+            // If backend fails, try Shopify API (if configured)
+            if (window.ShopifyAPI && window.ShopifyConfig?.isConfigured()) {
+                console.log('Trying Shopify API...');
+                const tokenData = await window.ShopifyAPI.customerLogin(email, password);
+                this.setToken(tokenData.accessToken, tokenData.expiresAt);
+                const customer = await window.ShopifyAPI.getCustomer(tokenData.accessToken);
+                this.setCustomer(customer);
+                return { success: true, customer };
+            }
+
+            throw new Error('Invalid credentials');
         } catch (error) {
             console.error('Login error:', error);
-            return { success: false, error: error.message };
+            return { success: false, error: error.message || 'Login failed' };
         }
     }
 
@@ -110,19 +132,43 @@ class AuthService {
      */
     async signup(email, password, firstName, lastName) {
         try {
-            // Create customer
-            const customer = await window.ShopifyAPI.createCustomer(
-                email,
-                password,
-                firstName,
-                lastName
-            );
+            // Try backend API first (demo mode)
+            const response = await fetch('http://localhost:3000/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password, firstName, lastName })
+            });
 
-            // Automatically log in after signup
-            return await this.login(email, password);
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store token and customer data
+                    this.setToken(data.token, data.expiresAt);
+                    this.setCustomer(data.user);
+
+                    console.log('✓ Signed up via backend API');
+                    return { success: true, customer: data.user };
+                }
+            }
+
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Signup failed');
+
         } catch (error) {
+            // If backend fails, try Shopify API (if configured)
+            if (window.ShopifyAPI && window.ShopifyConfig?.isConfigured()) {
+                console.log('Trying Shopify API...');
+                const customer = await window.ShopifyAPI.createCustomer(
+                    email, password, firstName, lastName
+                );
+                return await this.login(email, password);
+            }
+
             console.error('Signup error:', error);
-            return { success: false, error: error.message };
+            return { success: false, error: error.message || 'Signup failed' };
         }
     }
 
@@ -134,9 +180,26 @@ class AuthService {
 
         if (token) {
             try {
-                await window.ShopifyAPI.customerLogout(token);
+                // Try backend API logout
+                await fetch('http://localhost:3000/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token })
+                });
+                console.log('✓ Logged out via backend API');
             } catch (error) {
-                console.error('Logout error:', error);
+                console.error('Backend logout error:', error);
+            }
+
+            // Also try Shopify API if configured
+            if (window.ShopifyAPI && window.ShopifyConfig?.isConfigured()) {
+                try {
+                    await window.ShopifyAPI.customerLogout(token);
+                } catch (error) {
+                    console.error('Shopify logout error:', error);
+                }
             }
         }
 

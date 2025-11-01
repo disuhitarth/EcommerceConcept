@@ -34,6 +34,21 @@ app.use(cors()); // Enable CORS for all routes
 app.use(express.json({ limit: '50mb' })); // Parse JSON with increased limit for images
 app.use(express.static('.')); // Serve static files from current directory
 
+// In-memory user storage (demo mode - in production use a database)
+const users = new Map();
+const sessions = new Map();
+
+// Demo admin user
+users.set('admin@lovable.dev', {
+    id: 'user_1',
+    email: 'admin@lovable.dev',
+    password: 'admin123', // In production, hash passwords!
+    firstName: 'Admin',
+    lastName: 'User',
+    phone: '+1234567890',
+    createdAt: new Date().toISOString()
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Backend server is running' });
@@ -191,6 +206,177 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
+// ==================== Authentication Endpoints ====================
+
+// Signup endpoint
+app.post('/api/auth/signup', (req, res) => {
+    console.log('=== Signup request ===');
+    const { email, password, firstName, lastName } = req.body;
+
+    // Validate input
+    if (!email || !password || !firstName || !lastName) {
+        return res.status(400).json({
+            success: false,
+            error: 'All fields are required'
+        });
+    }
+
+    if (password.length < 8) {
+        return res.status(400).json({
+            success: false,
+            error: 'Password must be at least 8 characters'
+        });
+    }
+
+    // Check if user already exists
+    if (users.has(email)) {
+        return res.status(400).json({
+            success: false,
+            error: 'Email already registered'
+        });
+    }
+
+    // Create new user
+    const user = {
+        id: `user_${Date.now()}`,
+        email,
+        password, // In production, hash this!
+        firstName,
+        lastName,
+        phone: '',
+        createdAt: new Date().toISOString(),
+        orders: []
+    };
+
+    users.set(email, user);
+
+    // Create session
+    const sessionToken = `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(); // 7 days
+
+    sessions.set(sessionToken, {
+        userId: user.id,
+        email: user.email,
+        expiresAt
+    });
+
+    console.log('✓ User created:', email);
+
+    // Return user data (without password)
+    const { password: _, ...userWithoutPassword } = user;
+    res.json({
+        success: true,
+        user: userWithoutPassword,
+        token: sessionToken,
+        expiresAt
+    });
+});
+
+// Login endpoint
+app.post('/api/auth/login', (req, res) => {
+    console.log('=== Login request ===');
+    const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            error: 'Email and password are required'
+        });
+    }
+
+    // Check if user exists
+    const user = users.get(email);
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            error: 'Invalid email or password'
+        });
+    }
+
+    // Verify password (in production, use bcrypt.compare!)
+    if (user.password !== password) {
+        return res.status(401).json({
+            success: false,
+            error: 'Invalid email or password'
+        });
+    }
+
+    // Create session
+    const sessionToken = `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(); // 7 days
+
+    sessions.set(sessionToken, {
+        userId: user.id,
+        email: user.email,
+        expiresAt
+    });
+
+    console.log('✓ User logged in:', email);
+
+    // Return user data (without password)
+    const { password: _, ...userWithoutPassword } = user;
+    res.json({
+        success: true,
+        user: userWithoutPassword,
+        token: sessionToken,
+        expiresAt
+    });
+});
+
+// Logout endpoint
+app.post('/api/auth/logout', (req, res) => {
+    const { token } = req.body;
+
+    if (token && sessions.has(token)) {
+        sessions.delete(token);
+        console.log('✓ User logged out');
+    }
+
+    res.json({
+        success: true,
+        message: 'Logged out successfully'
+    });
+});
+
+// Get current user endpoint
+app.get('/api/auth/me', (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+
+    if (!token || !sessions.has(token)) {
+        return res.status(401).json({
+            success: false,
+            error: 'Not authenticated'
+        });
+    }
+
+    const session = sessions.get(token);
+
+    // Check if session expired
+    if (new Date(session.expiresAt) < new Date()) {
+        sessions.delete(token);
+        return res.status(401).json({
+            success: false,
+            error: 'Session expired'
+        });
+    }
+
+    const user = Array.from(users.values()).find(u => u.email === session.email);
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            error: 'User not found'
+        });
+    }
+
+    // Return user data (without password)
+    const { password: _, ...userWithoutPassword } = user;
+    res.json({
+        success: true,
+        user: userWithoutPassword
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log('╔══════════════════════════════════════════════════╗');
@@ -205,6 +391,11 @@ app.listen(PORT, () => {
     console.log(`  Store: ${shopifyConfig.domain}`);
     console.log(`  API Version: ${shopifyConfig.apiVersion}`);
     console.log(`  Admin Token: ${shopifyConfig.adminAccessToken.substring(0, 15)}...`);
+    console.log('');
+    console.log('Authentication:');
+    console.log(`  ✓ Demo auth enabled`);
+    console.log(`  Demo user: admin@lovable.dev / admin123`);
+    console.log(`  Or create new account via /signup.html`);
     console.log('');
     console.log('Ready to create products! 🚀');
     console.log('');
