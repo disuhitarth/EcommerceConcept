@@ -2458,18 +2458,10 @@
                     showNotification('Processing: ' + messages.join(', '));
                 }
 
-                // Check if Admin API is configured
-                if (!window.ShopifyConfig.isAdminConfigured()) {
-                    showNotification('⚠️ Shopify Admin API not configured. Please add your Admin API token to config/shopify.js', 'error');
-                    console.error('Admin API token required to create products.');
-                    console.log('Instructions: Go to Shopify Admin → Settings → Apps and sales channels → Develop apps');
-                    return;
-                }
-
                 // Prepare images array (get URLs from uploaded images)
                 const imageUrls = uploadedImages.map(img => img.url);
 
-                // Create product via Shopify Admin API
+                // Create product via backend API (avoids CORS issues)
                 const shopifyProductData = {
                     title: productData.title,
                     description: productData.description,
@@ -2484,8 +2476,21 @@
 
                 showNotification('Creating product in Shopify...', 'info');
 
-                // Call ShopifyAPI.createProduct()
-                const result = await window.ShopifyAPI.createProduct(shopifyProductData);
+                // Call backend API (runs on Node.js, no CORS issues)
+                const response = await fetch('http://localhost:3000/api/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(shopifyProductData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to create product');
+                }
+
+                const result = await response.json();
 
                 if (result.success) {
                     showNotification(`✓ Product "${result.product.title}" created successfully!`, 'success');

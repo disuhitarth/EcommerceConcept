@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "description": "Lovable Supply - E-commerce store with Shopify integration",
   "scripts": {
-    "dev": "node dev-server.js",
-    "start": "node dev-server.js"
+    "dev": "node server.js",
+    "start": "node server.js",
+    "dev:old": "node dev-server.js"
   },
-  "keywords": ["ecommerce", "shopify"],
+  "keywords": [
+    "ecommerce",
+    "shopify"
+  ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0"
+  }
 }
