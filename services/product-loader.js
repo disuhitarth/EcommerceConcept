@@ -32,10 +32,10 @@ class ProductLoader {
         this.loading = true;
 
         try {
-            // Check if we should use cache (cache for 1 minute only during development)
+            // Check if we should use cache (cache for 5 seconds for quick updates)
             const cachedTimestamp = localStorage.getItem('shopify_products_timestamp');
             const cacheAge = Date.now() - (cachedTimestamp || 0);
-            const maxCacheAge = 1 * 60 * 1000; // 1 minute for development
+            const maxCacheAge = 5 * 1000; // 5 seconds for quick updates
 
             // Always fetch fresh data if cache is old or doesn't exist
             if (!cachedTimestamp || cacheAge > maxCacheAge) {
@@ -47,7 +47,7 @@ class ProductLoader {
                     console.log('Cleared ShopifyAPI cache');
                 }
 
-                const shopifyProducts = await window.ShopifyAPI.fetchProducts(50);
+                const shopifyProducts = await window.ShopifyAPI.fetchProducts(100);
                 this.products = window.ShopifyAPI.formatProducts(shopifyProducts);
 
                 console.log(`✓ Loaded ${this.products.length} products from Shopify`);
