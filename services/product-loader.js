@@ -166,4 +166,14 @@ const productLoader = new ProductLoader();
 // Export for use in other files
 if (typeof window !== 'undefined') {
     window.ProductLoader = productLoader;
+
+    // Global helper function to refresh products
+    window.refreshProducts = async function() {
+        console.log('🔄 Refreshing products...');
+        await window.ProductLoader.refreshProducts();
+        console.log(`✅ Refreshed! Now showing ${window.ProductLoader.getProducts().length} products`);
+
+        // Reload the page to update the UI
+        window.location.reload();
+    };
 }
