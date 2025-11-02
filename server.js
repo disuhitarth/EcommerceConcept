@@ -70,6 +70,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // Create product endpoint
+// Products are created with the following settings to ensure visibility:
+// - status: 'active' (not draft or archived)
+// - published: true (published immediately)
+// - published_scope: 'web' (visible on Online Store sales channel)
+// - published_at: current timestamp (publish date set to now)
 app.post('/api/products', async (req, res) => {
     console.log('=== Received product creation request ===');
     console.log('Product title:', req.body.title);
@@ -104,8 +109,10 @@ app.post('/api/products', async (req, res) => {
             vendor: vendor || 'The Merch Concept',
             product_type: category || 'General',
             tags: Array.isArray(tags) ? tags.join(', ') : tags || '',
-            status: 'active',
-            published: true
+            status: 'active',              // Make product active (not draft/archived)
+            published: true,                // Publish the product immediately
+            published_scope: 'web',         // Publish to Online Store sales channel
+            published_at: new Date().toISOString()  // Set publish date to now
         };
 
         // Add variants with pricing
@@ -145,6 +152,7 @@ app.post('/api/products', async (req, res) => {
         }
 
         console.log('Sending request to Shopify Admin API...');
+        console.log('Product will be published to Online Store (status: active, published_scope: web)');
 
         // Call Shopify Admin API
         const shopifyResponse = await fetch(

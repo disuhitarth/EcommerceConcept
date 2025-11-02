@@ -527,8 +527,10 @@ class ShopifyAPI {
             vendor: vendor || this.config.config.storeName,
             product_type: category || 'General',
             tags: Array.isArray(tags) ? tags.join(', ') : tags,
-            status: 'active',
-            published: true
+            status: 'active',              // Make product active (not draft/archived)
+            published: true,                // Publish the product immediately
+            published_scope: 'web',         // Publish to Online Store sales channel
+            published_at: new Date().toISOString()  // Set publish date to now
         };
 
         // Add variants with pricing
