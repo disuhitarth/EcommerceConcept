@@ -73,7 +73,7 @@ app.get('/api/health', (req, res) => {
 // Products are created with the following settings to ensure visibility:
 // - status: 'active' (not draft or archived)
 // - published: true (published immediately)
-// - published_scope: 'web' (visible on Online Store sales channel)
+// - published_scope: 'global' (visible on ALL sales channels including Online Store and custom apps)
 // - published_at: current timestamp (publish date set to now)
 app.post('/api/products', async (req, res) => {
     console.log('=== Received product creation request ===');
@@ -111,7 +111,7 @@ app.post('/api/products', async (req, res) => {
             tags: Array.isArray(tags) ? tags.join(', ') : tags || '',
             status: 'active',              // Make product active (not draft/archived)
             published: true,                // Publish the product immediately
-            published_scope: 'web',         // Publish to Online Store sales channel
+            published_scope: 'global',      // Publish to ALL sales channels (Online Store + custom apps)
             published_at: new Date().toISOString()  // Set publish date to now
         };
 
@@ -152,7 +152,7 @@ app.post('/api/products', async (req, res) => {
         }
 
         console.log('Sending request to Shopify Admin API...');
-        console.log('Product will be published to Online Store (status: active, published_scope: web)');
+        console.log('Product will be published to ALL sales channels (status: active, published_scope: global)');
 
         // Call Shopify Admin API
         const shopifyResponse = await fetch(
