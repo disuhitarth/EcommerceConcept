@@ -2,7 +2,7 @@
 
 // Product State
 let currentPage = 1;
-let itemsPerPage = 12;
+let itemsPerPage = 100; // Show up to 100 products per page
 let currentSort = 'featured';
 let currentFilter = 'all';
 let searchQuery = '';
