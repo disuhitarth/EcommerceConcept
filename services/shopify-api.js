@@ -118,6 +118,38 @@ class ShopifyAPI {
 
         const data = await this.graphql(query, { first, after });
 
+        // ===== DETAILED LOGGING =====
+        console.log('========================================');
+        console.log('🔍 SHOPIFY API RESPONSE DETAILS');
+        console.log('========================================');
+        console.log(`📊 Total products fetched: ${data.products.edges.length}`);
+        console.log(`📄 Has next page: ${data.products.pageInfo.hasNextPage}`);
+        console.log('');
+        console.log('📦 Product List:');
+        data.products.edges.forEach((edge, index) => {
+            const product = edge.node;
+            const hasImage = product.images.edges.length > 0;
+            console.log(`  ${index + 1}. "${product.title}"`);
+            console.log(`     - ID: ${product.id}`);
+            console.log(`     - Created: ${new Date(product.createdAt).toLocaleString()}`);
+            console.log(`     - Updated: ${new Date(product.updatedAt).toLocaleString()}`);
+            console.log(`     - Category: ${product.productType || 'None'}`);
+            console.log(`     - Images: ${hasImage ? '✓ ' + product.images.edges.length : '✗ None'}`);
+            console.log('');
+        });
+
+        // Sort by updated date to show most recently updated
+        const sortedByUpdate = [...data.products.edges].sort((a, b) =>
+            new Date(b.node.updatedAt) - new Date(a.node.updatedAt)
+        );
+        console.log('🔄 Most Recently Updated Products (Top 5):');
+        sortedByUpdate.slice(0, 5).forEach((edge, index) => {
+            const product = edge.node;
+            console.log(`  ${index + 1}. "${product.title}" - Updated: ${new Date(product.updatedAt).toLocaleString()}`);
+        });
+        console.log('========================================');
+        console.log('');
+
         // Cache the result
         this.cache.set(cacheKey, {
             data: data.products,
@@ -417,7 +449,10 @@ class ShopifyAPI {
      * Format products from Shopify to our format
      */
     formatProducts(shopifyProducts) {
-        return shopifyProducts.edges.map(({ node }) => {
+        console.log('📝 FORMATTING PRODUCTS');
+        console.log(`Input: ${shopifyProducts.edges.length} products`);
+
+        const formatted = shopifyProducts.edges.map(({ node }) => {
             const firstVariant = node.variants.edges[0]?.node;
             const firstImage = node.images.edges[0]?.node;
 
@@ -451,6 +486,11 @@ class ShopifyAPI {
                 vendor: node.vendor
             };
         });
+
+        console.log(`Output: ${formatted.length} formatted products`);
+        console.log('');
+
+        return formatted;
     }
 
     /**

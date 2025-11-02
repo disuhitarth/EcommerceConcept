@@ -50,7 +50,11 @@ class ProductLoader {
                 const shopifyProducts = await window.ShopifyAPI.fetchProducts(100);
                 this.products = window.ShopifyAPI.formatProducts(shopifyProducts);
 
+                console.log('========================================');
+                console.log('✅ PRODUCT LOADER FINAL RESULTS');
+                console.log('========================================');
                 console.log(`✓ Loaded ${this.products.length} products from Shopify`);
+                console.log('');
 
                 // Log all products with image status
                 this.products.forEach((p, i) => {
