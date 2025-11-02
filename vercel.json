@@ -19,11 +19,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "env": {
-    "SHOPIFY_DOMAIN": "@shopify_domain",
-    "SHOPIFY_ADMIN_TOKEN": "@shopify_admin_token",
-    "SHOPIFY_API_VERSION": "2024-01",
-    "NODE_ENV": "production"
-  }
+  ]
 }
