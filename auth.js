@@ -170,13 +170,6 @@ function showDemoModeWarning() {
 
 /**
  * Show notification
+ * Note: This uses the global showNotification function from script.js
+ * The type parameter is ignored as script.js only accepts message
  */
-function showNotification(message, type = 'info') {
-    // Use the global notification function from script.js
-    if (typeof window.showNotification === 'function') {
-        window.showNotification(message, type);
-    } else {
-        // Fallback alert
-        alert(message);
-    }
-}
